@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="group_portal_internal" model="res.groups">
+        <field name="name">Usuario Portal Interno</field>
+        <field name="category_id" ref="base.module_category_extra"/>
+    </record>
+    <record id="group_portal_manager" model="res.groups">
+        <field name="name">Administrador del Portal</field>
+        <field name="category_id" ref="base.module_category_extra"/>
+        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+    </record>
+</odoo>

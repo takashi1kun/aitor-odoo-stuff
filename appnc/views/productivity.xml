@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+         <record id="appnc_productivity_tree" model="ir.ui.view">
+              <field name="name">appnc.productivity.tree</field>
+              <field name="model">appnc.productivity</field>
+              <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" />
+                    <field name="type" />
+                    <field name="active" />
+                </tree>
+              </field>
+         </record>
+ <record id="view_user_form" model="ir.ui.view">
+              <field name="name">appnc.user.form</field>
+              <field name="model">res.users</field>
+              <field name="inherit_id" ref="base.view_users_form"/>
+              <field name="arch" type="xml">
+                  <field name="lang" position="after">
+                      <field name="is_helper"/>
+                  </field>
+              </field>
+         </record>
+        <record id="view_user_form2" model="ir.ui.view">
+              <field name="name">appnc.user.form2</field>
+              <field name="model">res.users</field>
+              <field name="inherit_id" ref="base.view_users_simple_form"/>
+              <field name="arch" type="xml">
+                  <field name="mobile" position="after">
+                      <field name="is_helper"/>
+                  </field>
+              </field>
+         </record>
+         <record id="appnc_productivity_action" model="ir.actions.act_window">
+            <field name="name">Campos Productividad</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">appnc.productivity</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+    </data>
+</odoo>
+
+

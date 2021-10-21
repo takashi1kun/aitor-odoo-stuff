@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="inherited_res_users_form" model="ir.ui.view">
+            <field name="name">inherited.res.users.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Log APP">
+                        <field name="app_log_ids" nolabel="1" readonly="1">
+                            <tree editable="bottom">
+                                <field name="date" readonly="1"/>
+                                <field name="type" readonly="1"/>
+                                <field name="user_id" readonly="1" invisible="1"/>
+                                <field name="company_id" readonly="1" invisible="1"/>
+                                <field name="device_id" readonly="1"/>
+                                <field name="is_conection_related" invisible="1" readonly="1"/>
+                                <field name="is_task_related" invisible="1" readonly="1"/>
+                                <field name="related_task_id" readonly="1"/>
+                                <field name="has_gps_location" invisible="1" readonly="1"/>
+                                <field name="gps_location_id" invisible="1" readonly="1"/>
+                                <field name="url" widget="url" text="🗺️" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

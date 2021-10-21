@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="portal_request_company_rule" model="ir.rule">
+        <field name="name">Portal Request Multi-Company Rule</field>
+        <field name="model_id" ref="model_portal_request"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+    </record>
+
+<!--
+        <record model="ir.rule" id="portal_user_sale_order_remove">
+            <field name="name">Portal User Sale Order Remove</field>
+            <field name="model_id" ref="sale.model_sale_order" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+-->
+     <record model="ir.rule" id="portal_manager_portal_request_read">
+            <field name="name">Portal Manager Portal Request Read</field>
+            <field name="model_id" ref="model_portal_request" />
+            <field name="groups" eval="[(4, ref('anonbussiness_client_portal.group_portal_manager'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_read" eval="1"/>
+        </record>
+     <record model="ir.rule" id="portal_manager_portal_request_write">
+            <field name="name">Portal Manager Portal Request Write</field>
+            <field name="model_id" ref="model_portal_request" />
+            <field name="groups" eval="[(4, ref('anonbussiness_client_portal.group_portal_manager'))]"/>
+            <field name="domain_force">[("state",'in',["requested","confirmed"])]</field>
+            <field name="perm_write" eval="1"/>
+    </record>
+     <record model="ir.rule" id="portal_manager_portal_request_unlink">
+            <field name="name">Portal Manager Portal Request Unlink</field>
+            <field name="model_id" ref="model_portal_request" />
+            <field name="groups" eval="[(4, ref('anonbussiness_client_portal.group_portal_manager'))]"/>
+            <field name="domain_force">[("state",'in',["new","draft","cancel"])]</field>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+     <record model="ir.rule" id="portal_user_portal_request">
+            <field name="name">Portal User Portal Request</field>
+            <field name="model_id" ref="model_portal_request" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('state','!=','completed'),('user_id','=',user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+        </record>
+     <record model="ir.rule" id="portal_user_portal_request_write">
+            <field name="name">Portal User Portal Request Write</field>
+            <field name="model_id" ref="model_portal_request" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('state','in',['new','draft']),('user_id','=',user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_write" eval="1"/>
+        </record>
+        <record model="ir.rule" id="portal_user_sale_order">
+            <field name="name">Portal User Sale Order</field>
+            <field name="model_id" ref="sale.model_sale_order" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('state','in',['done','sale']),('partner_id','=',user.partner_id.parent_id.id)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+        <record model="ir.rule" id="portal_user_product_template">
+            <field name="name">Portal User Product Template</field>
+            <field name="model_id" ref="product.model_product_template" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">['|',('type','=','product'),'&amp;',('type','=','service'),('id','in',user.partner_id.parent_id.allowed_product_tmpl_ids.ids)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+        <record model="ir.rule" id="portal_user_product_product">
+            <field name="name">Portal User Product Product</field>
+            <field name="model_id" ref="product.model_product_product" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">['|',('type','=','product'),'&amp;',('type','=','service'),('product_tmpl_id','in',user.partner_id.parent_id.allowed_product_tmpl_ids.ids)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+        <record model="ir.rule" id="portal_user_res_users">
+            <field name="name">Portal User Users</field>
+            <field name="model_id" ref="base.model_res_users" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('id','=',user.id)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+
+<!--
+        <record model="ir.rule" id="portal_user_account_invoice_remove">
+            <field name="name">Portal User account invoice Remove</field>
+            <field name="model_id" ref="account.model_account_invoice" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+-->
+        <record model="ir.rule" id="portal_user_account_invoice">
+            <field name="name">Portal User Account Invoice</field>
+            <field name="model_id" ref="account.model_account_invoice" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">['&amp;',('state','in',['open','paid']),'|',('partner_id','=',user.partner_id.parent_id.id),('partner_id','=',user.partner_id.id)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+<!--
+        <record model="ir.rule" id="portal_user_custody_document_remove">
+            <field name="name">Portal User custody document Remove</field>
+            <field name="model_id" ref="custody_document_anonbussiness.model_custody_document" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+-->
+        <record model="ir.rule" id="portal_user_custody_document">
+            <field name="name">Portal User Custody Document</field>
+            <field name="model_id" ref="custody_document_anonbussiness.model_custody_document" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('owner_id','=',user.partner_id.parent_id.id)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+
+        <record model="ir.rule" id="portal_user_sale_service">
+            <field name="name">Portal User Sale Service</field>
+            <field name="model_id" ref="sale_service_anonbussiness.model_sale_service" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('sale_id.owner_id','=',user.partner_id.parent_id.id)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+
+        <record model="ir.rule" id="portal_user_partner">
+            <field name="name">Portal User Partner</field>
+            <field name="model_id" ref="base.model_res_partner" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">['|',('id','=',user.partner_id.id),('id','=',user.partner_id.parent_id.id)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+
+        <record model="ir.rule" id="portal_user_partner_parents">
+            <field name="name">Portal User Partner Parents</field>
+            <field name="model_id" ref="base.model_res_partner" />
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[
+                                        '|',
+                                            '|',
+                                                ('id','=',user.partner_id.parent_id.parent_id.id),
+                                                ('id','in',user.partner_id.child_ids.ids),
+                                            '|',
+                                                ('id','in',user.partner_id.parent_id.child_ids.ids),
+                                                ('id','in',user.partner_id.parent_id.parent_id.child_ids.ids)
+                                        ]</field>
+            <field name="perm_read" eval="1"/>
+        </record>
+
+</odoo>

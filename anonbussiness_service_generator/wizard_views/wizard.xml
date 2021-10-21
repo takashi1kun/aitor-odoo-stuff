@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2019 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="wizard_assignment_driver_or_helper_form" model="ir.ui.view">
+            <field name="name">service.generator.assignment.wizard.form</field>
+            <field name="model">service.generator.assignment.wizard</field>
+            <field name="groups_id" eval="[(4,ref('anonbussiness_service_generator.service_generator_manager_group'))]"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="readonly_origen" invisible="1"/>
+                                <field name="is_helper_assignment" invisible="1" />
+                                <field name="conductor" domain="[('is_driver','=',True)]" string="Conductor" required="True" attrs="{'invisible':[('is_helper_assignment','=',True)]}" />
+                                <field name="ayudante" domain="[('is_driver','=',True)]" string="Ayudante" attrs="{'invisible':[('is_helper_assignment','=',False)], 'required': [('is_helper_assignment','=',True)]}" />
+                                <field name="busqueda_avanzada" />
+                            </group>
+                            <group>
+                                <field name="documento_origen" attrs="{'invisible':[('readonly_origen', '=', True)]}" domain="[('service', '!=', 'ya')]" required="True"/>
+                            </group>
+                            <group>
+                                <field name="busqueda_avanzada_fecha_desde" attrs="{'invisible':[('busqueda_avanzada','!=',True)]}" />
+                                <label attrs="{'invisible':[('busqueda_avanzada','!=',True)]}"
+                                       for="busqueda_avanzada_semana_todos"
+                                       string="Dias de la semana"/>
+                                <div attrs="{'invisible':[('busqueda_avanzada','!=',True)]}"                                     class="address_format">
+                                    <table id="daysOfWeek">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <label for="busqueda_avanzada_semana_lunes" string="L"/>
+                                                </th>
+                                                <th>
+                                                    <label for="busqueda_avanzada_semana_martes" string="M"/>
+                                                </th>
+                                                <th>
+                                                    <label for="busqueda_avanzada_semana_miercoles" string="X"/>
+                                                </th>
+                                                <th>
+                                                    <label for="busqueda_avanzada_semana_jueves" string="J"/>
+                                                </th>
+                                                <th>
+                                                    <label for="busqueda_avanzada_semana_viernes" string="V"/>
+                                                </th>
+                                                <th>
+                                                    <label for="busqueda_avanzada_semana_sabado" string="S"/>
+                                                </th>
+                                                <th>
+                                                    <label for="busqueda_avanzada_semana_domingo" string="D"/>
+                                                </th>
+                                                <th>
+                                                    <div style="height: 1em;width: 1em;position: relative;">
+                                                        <i class="fa fa-check-square"
+                                                           style="position: absolute;top: 3px;left: 3px;/* background-color: white; */z-index: 11;">
+
+                                                        </i>
+                                                        <i class="fa fa-square fa-inverse"
+                                                           style="position: absolute;top: 2px;left: 2px;z-index: 2;">
+                                                        </i>
+                                                        <i class="fa fa-square"
+                                                           style="position: absolute;top: 0px;left: 0px;">
+                                                        </i>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>
+                                                    <field name="busqueda_avanzada_semana_lunes" class="oe_inline"/>
+                                                </td>
+                                                <td>
+                                                    <field  name="busqueda_avanzada_semana_martes"
+                                                           class="oe_inline"/>
+                                                </td>
+                                                <td>
+                                                    <field  name="busqueda_avanzada_semana_miercoles"
+                                                           class="oe_inline"/>
+                                                </td>
+                                                <td>
+                                                    <field  name="busqueda_avanzada_semana_jueves"
+                                                           class="oe_inline"/>
+                                                </td>
+                                                <td>
+                                                    <field   name="busqueda_avanzada_semana_viernes"
+                                                           class="oe_inline"/>
+                                                </td>
+                                                <td>
+                                                    <field  name="busqueda_avanzada_semana_sabado"
+                                                           class="oe_inline"/>
+                                                </td>
+                                                <td>
+                                                    <field name="busqueda_avanzada_semana_domingo"
+                                                           class="oe_inline"/>
+                                                </td>
+                                                <td>
+                    <field name="busqueda_avanzada_semana_todos" class="oe_inline"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="busqueda_avanzada_fecha_hasta" attrs="{'invisible':[('busqueda_avanzada','!=',True)]}" />
+                                <field name="busqueda_avanzada_solo_sin_asignar" attrs="{'invisible':[('busqueda_avanzada','!=',True)]}"  string="Solo sin asignar" />
+                            </group>
+
+
+                            <field name="documentos_compra_sin_filtrar" invisible="1"/>
+                            <field nolabel="1" name="documentos_compra" readonly="True">
+                                <tree>
+                                    <field name="name" string="Referencia"/>
+                                    <field name="date_order" string="Fecha Pedido"/>
+                                    <field name="has_driver" invisible="1"/>
+                                    <field name="has_driver_str" invisible="1"/>
+                                    <field name="driver_state" string="Estado"/>
+                                    <field name="partner_id" string="Conductor/Ayudante Asignado"/>
+                                    <field name="origin" string="Ref. Venta"/>
+                                    <field name="state" string="Estado Compra"/>
+                                    <field name="invoice_status" string="Estado Facturacion"/>
+                                </tree>
+                            </field>
+                             
+                        </group>
+                    </sheet>
+                    <footer>
+                        <script>
+                            <![CDATA[
+                          $(".modal-title").html(unescape('&lt;a&gt;&lt;i class=&quot;fa fa-truck&quot;&gt;&lt;/i&gt;&lt;/a&gt;  ')+$(".modal-title").html())
+                           ]]>
+                        </script>
+                        <button string="Aplicar" name="set_driver_btn" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="wizard_assignment_driver_action" model="ir.actions.act_window">
+            <field name="name">Asignar Conductor</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">service.generator.assignment.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="anonbussiness_service_generator.wizard_assignment_driver_or_helper_form" />
+            <field name="context">{'default_is_helper_assignment': False}</field>
+            <field name="target">new</field>
+        </record>
+        <record id="wizard_assignment_helper_action" model="ir.actions.act_window">
+            <field name="name">Asignar Ayudante</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">service.generator.assignment.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="anonbussiness_service_generator.wizard_assignment_driver_or_helper_form" />
+            <field name="context">{'default_is_helper_assignment': True}</field>
+            <field name="target">new</field>
+        </record>
+
+<menuitem id="wizard_assignment_menu" name="Asignaciones" groups="anonbussiness_service_generator.service_generator_manager_group" sequence="28" parent="purchase.menu_purchase_root"/>
+<menuitem id="wizard_assignment_driver_menu" name="Asignar Conductor" sequence="1" groups="anonbussiness_service_generator.service_generator_manager_group" action="anonbussiness_service_generator.wizard_assignment_driver_action" parent="anonbussiness_service_generator.wizard_assignment_menu"/>
+<menuitem id="wizard_assignment_helper_menu" name="Asignar Ayudante" sequence="2" groups="anonbussiness_service_generator.service_generator_manager_group" action="anonbussiness_service_generator.wizard_assignment_helper_action" parent="anonbussiness_service_generator.wizard_assignment_menu"/>
+    </data>
+</odoo>

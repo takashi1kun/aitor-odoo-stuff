@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+<menuitem id="backend_portal_menu_root"
+            name="Portal del Cliente"
+            groups="anonbussiness_client_portal.group_portal_manager"
+            parent="sale.sale_menu_root"
+            sequence="2"/>
+            <menuitem
+                    id="backend_portal_menu_requests"
+                    action="anonbussiness_client_portal.action_anonbussiness_client_portal_request_internal"
+                    parent="anonbussiness_client_portal.backend_portal_menu_root"
+                    name="Solicitudes Portal"
+                    groups="anonbussiness_client_portal.group_portal_manager"
+                    sequence="1" />
+            <menuitem
+                    id="backend_portal_menu_requests_confirmed"
+                    action="anonbussiness_client_portal.action_anonbussiness_client_portal_request_internal_confirmed"
+                    parent="anonbussiness_client_portal.backend_portal_menu_root"
+                    name="Solicitudes Portal Confirmadas"
+                    groups="anonbussiness_client_portal.group_portal_manager"
+                    sequence="2" />
+            <menuitem
+                    id="backend_portal_menu_requests_completed"
+                    action="anonbussiness_client_portal.action_anonbussiness_client_portal_request_internal_completed"
+                    parent="anonbussiness_client_portal.backend_portal_menu_root"
+                    name="Solicitudes Portal Completadas"
+                    groups="anonbussiness_client_portal.group_portal_manager"
+                    sequence="3" />
+        <menuitem id="menu_portal_pricelist_recompute_wizard"
+                  name="Recálculo de tarifas del portal"
+                  sequence="10"
+                  parent="anonbussiness_client_portal.backend_portal_menu_root"
+                  action="action_portal_pricelist_recompute_wizard"
+        />
+
+        <!--><OTHER><-->
+        <menuitem id="client_portal_menu_root"
+            name="Portal del Cliente"
+            groups="base.group_portal"
+            sequence="7"/>
+            <menuitem
+                    id="client_portal_portal_menu"
+                    action="anonbussiness_client_portal.action_anonbussiness_client_portal"
+                    parent="anonbussiness_client_portal.client_portal_menu_root"
+                    name="Portal"
+                    groups="base.group_portal"
+                    sequence="1" />
+            <menuitem
+                    id="client_portal_sale_menu"
+                    parent="anonbussiness_client_portal.client_portal_menu_root"
+                    name="Pedidos"
+                    groups="base.group_portal"
+                    sequence="2" />
+                <menuitem
+                        id="client_portal_sale_my_orders_menu"
+                        parent="anonbussiness_client_portal.client_portal_sale_menu"
+                        action="anonbussiness_client_portal.action_anonbussiness_client_portal_my_orders"
+                        name="Mis pedidos"
+                        groups="base.group_portal"
+                        sequence="1" />
+                <menuitem
+                        id="client_portal_sale_request_service_menu"
+                        parent="anonbussiness_client_portal.client_portal_sale_menu"
+                        action="anonbussiness_client_portal.action_anonbussiness_client_portal_request"
+                        name="Solicitudes de Servicio"
+                        groups="base.group_portal"
+                        sequence="2" />
+            <menuitem
+                    id="client_portal_invoice_menu"
+                    parent="anonbussiness_client_portal.client_portal_menu_root"
+                    name="Facturas"
+                    groups="base.group_portal"
+                    sequence="3" />
+                <menuitem
+                        id="client_portal_invoice_last_invoices_menu"
+                        parent="anonbussiness_client_portal.client_portal_invoice_menu"
+                        name="Últimas Facturas"
+                        action="anonbussiness_client_portal.action_anonbussiness_client_portal_my_last_invoices"
+                        groups="base.group_portal"
+                        sequence="1" />
+                <menuitem
+                        id="client_portal_invoice_all_invoices_menu"
+                        parent="anonbussiness_client_portal.client_portal_invoice_menu"
+                        name="Todas las Facturas"
+                        action="anonbussiness_client_portal.action_anonbussiness_client_portal_my_invoices"
+                        groups="base.group_portal"
+                        sequence="2" />
+            <menuitem
+                    id="client_portal_custody_menu"
+                    parent="anonbussiness_client_portal.client_portal_menu_root"
+                    name="Inventario"
+                    groups="base.group_portal"
+                    sequence="4" />
+                <menuitem
+                        id="client_portal_custody_my_documents_menu"
+                        parent="anonbussiness_client_portal.client_portal_custody_menu"
+                        name="Inventario"
+                        action="anonbussiness_client_portal.action_anonbussiness_client_portal_my_documents"
+                        groups="base.group_portal"
+                        sequence="1" />
+
+                <record id="client_portal_action_custom_search_document_wizard" model="ir.actions.act_window">
+                    <field name="name">Búsqueda Personalizada</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">custom.search.document.wizard</field>
+                    <field name="view_type">form</field>
+                    <field name="target">new</field>
+                    <field name="context">{
+                        'default_oculta_info':1,
+                        'default_oculta_product':1,
+                        'default_muestra_in_search':1,
+                        'default_tipo_busqueda':'diri',
+                        'menu_portal_request':1,
+                        }
+                    </field>
+                    <field name="view_id" ref="custody_document_anonbussiness.custom_search_document_wizard_form"/>
+                </record>
+
+                <menuitem
+                        id="client_portal_menu_custom_search_document_wizard"
+                        parent="anonbussiness_client_portal.client_portal_custody_menu"
+                        name="Búsqueda"
+                        action="anonbussiness_client_portal.client_portal_action_custom_search_document_wizard"
+                        groups="base.group_portal"
+                        sequence="2" />
+
+            <menuitem
+                    id="client_portal_logout_menu"
+                    parent="anonbussiness_client_portal.client_portal_menu_root"
+                    name="Salir del Portal"
+                    action="anonbussiness_client_portal.action_portal_logout"
+                    groups="base.group_portal"
+                    sequence="5" />
+
+
+        <!--></OTHER><-->
+
+
+
+
+    </data>
+</odoo>

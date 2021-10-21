@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+    <record id="project_project_appnc_view_form" model="ir.ui.view">
+        <field name="name">project.project.appnc.view.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+               <xpath expr="//page[@name='emails']" position="after">
+                   <page name="map" string="Mapa">
+                       <group>
+                            <field name="coordinates" widget="googlemap" />
+                       </group>
+                   </page>
+                </xpath>
+                 <xpath expr="//button[@name='attachment_tree_view']" position="before">
+                   <button class="oe_stat_button" name="appnc_timesheets_action" type="object" icon="fa-map-o">
+                            <field string="P.Topografos" name="appnc_timesheet_ids" widget="statinfo"/>
+                    </button>
+                </xpath>
+        </field>
+    </record>
+    </data>
+</odoo>

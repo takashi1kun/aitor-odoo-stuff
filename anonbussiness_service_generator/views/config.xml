@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2019, 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record model="ir.cron" forcecreate="True" id="do_service_generator_tasks">
+            <field name="name">Servicios: Generar por la noche</field>
+            <field name="model_id" ref="model_sale_order_service_generator"/>
+            <field name="state">code</field>
+            <field name="code">model.delayed_generation()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days= +1)).strftime('%Y-%m-%d 3:00:00')"/>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+        </record>
+
+        <!--><OTHER><-->
+
+        <record id="default_driver_settings_view" model="ir.ui.view">
+            <field name="name">Configuracion de Praxya</field>
+            <field name="name">res.config.settings.view.form.inherit.sale.conductor.por.defecto</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@data-key='sale_management']//h2[1]" position="before">
+                    <h2 id="praxya_config">Configuracion de parametros modulos Praxya.</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12  o_setting_box">
+
+
+<!--
+                            <div class="">
+                                <h5>TITULO</h5>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class=""></div>
+                                        <div class=""></div>
+                                    </div>
+                                    <div class="col-xs-4">
+
+                                        <div class=""></div>
+                                        <div class=""></div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class=""></div>
+                                        <div class=""></div>
+                                    </div>
+                                </div>
+                            </div>
+                  -->
+                            <style>
+                            <![CDATA[
+                                .configAnonBussiness input{
+                                    width:169px!important;
+                                }
+                                .specialHr {
+                                    border-color:#d0d0d0!important;
+                                }
+                                div.goodSizeAnonBussiness>div.row>div.col-xs-4>div {
+                                    height: 104px!important;
+                                    display: flex!important;
+                                    flex-direction: column!important;
+                                    margin-bottom: 20px;
+                                }
+                                div.goodSizeAnonBussiness>div.row>div.col-xs-4>div>div.text-muted:last-child {
+                                margin-top:auto!important;
+                               }
+                                div.goodSizeAnonBussiness2>div.row>div.col-xs-4>div {
+                                    height: 86px!important;
+                                    display: flex!important;
+                                    flex-direction: column!important;
+                                    margin-bottom: 5px;
+                                }
+                                div.goodSizeAnonBussiness2>div.row>div.col-xs-4>div>div.text-muted:last-child {
+                                margin-top:auto!important;
+                               }
+                            ]]>
+                            </style>
+                            <div class="goodSizeAnonBussiness2">
+                                <h5>Configuracion Basica</h5>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="">
+                                            <label string="Conductor por defecto" for="ayudante_por_defecto"/>
+                                            <div class="text-muted">
+                                                Contacto asignado temporalmente para pedidos que aun no tengan conductor asignado
+                                            </div>
+                                            <div class="text-muted">
+                                                <field domain="[('is_driver','=',True)]" name="conductor_por_defecto"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="">
+                                            <label string="Ayudante por defecto" for="ayudante_por_defecto"/>
+                                            <div class="text-muted">
+                                                Contacto asignado temporalmente para pedidos que aun no tengan ayudante asignado
+                                            </div>
+                                            <div class="text-muted">
+                                                <field domain="[('is_driver','=',True)]" name="ayudante_por_defecto"/>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="">
+                                            <label string="Impuesto para Peajes" for="tax_for_peaje_id"/>
+                                            <div class="text-muted">
+                                                Seleccionar de la lista de impuestos el impuesto que tienen los peajes
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="tax_for_peaje_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="configAnonBussiness">
+                                            <label string="Tiempo Carga y Descarga" for="tiempo_disponible_carga_y_descarga"/>
+                                            <div class="text-muted">
+                                                Tiempo Disponible Carga y Descarga en formato HH:MM
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="tiempo_disponible_carga_y_descarga" widget="float_time"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="configAnonBussiness">
+                                            <label string="Kilometros por Hora" for="kilometros_por_hora"/>
+                                            <div class="text-muted">
+                                                Kilometros que corresponden a una hora, para calculos de extras
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="kilometros_por_hora"/>
+                                            </div>
+                                        </div>
+                                        <div class="configAnonBussiness">
+                                            <label string="Kilometros por jornada"  for="kilometros_por_jornada"/>
+                                            <div class="text-muted">
+                                                Los kilometros que corresponden a una jornada, para calculos de extras
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="kilometros_por_jornada"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="specialHr"/>
+                            <div class="goodSizeAnonBussiness">
+                                <h5>Productos Para Extras</h5>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="">
+                                            <label string="Producto para kilometros extra" for="kilometros_extra_producto_defecto_id"/>
+                                            <div class="text-muted">
+                                                Este sera el producto que representara los KM extra cuando se hayan hecho mas de los previstos.
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="kilometros_extra_producto_defecto_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <label string="Producto para horas extra" for="horas_extra_producto_defecto_id"/>
+                                            <div class="text-muted">
+                                                Este sera el producto que representa las horas extra.
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="horas_extra_producto_defecto_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <label string="Producto Extra Direcciones" for="extra_direcciones_id"/>
+                                            <div class="text-muted">
+                                                Este sera el producto que representara las direcciones extra cuando se hayan hecho mas de las previstas.
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="extra_direcciones_id"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="">
+                                            <label string="Producto Tiempo de Espera Moto" for="producto_minutos_espera_moto_id"/>
+                                            <div class="text-muted">
+                                                Este es el producto que representa el tiempo de espera en un pedido de moto
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="producto_minutos_espera_moto_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <label string="Producto Tiempo de Espera Coche" for="producto_minutos_espera_coche_id"/>
+                                            <div class="text-muted">
+                                                Este es el producto que representa el tiempo de espera en un pedido de coche
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="producto_minutos_espera_coche_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <label string="Producto Extra Peaje" for="producto_extra_peaje_id"/>
+                                            <div class="text-muted">
+                                                Este es el producto que representa cuanto a costado el peaje a un conductor
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="producto_extra_peaje_id"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="">
+                                            <label string="Producto Extra lluvia KM"  for="producto_extra_lluvia_km_id"/>
+                                            <div class="text-muted">
+                                                Este es el producto que representa el extra por lluvias en un servicio tipo Kilometros
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="producto_extra_lluvia_km_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <label string="Producto Extra lluvia Direccion" for="producto_extra_lluvia_direccion_id"/>
+                                            <div class="text-muted">
+                                                Este es el producto que representa el extra por lluvias en un servicio tipo Direcciones
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="producto_extra_lluvia_direccion_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <label string="Producto Seguro Limite Responsabilidad" for="producto_seguro_limite_responsabilidad_id"/>
+                                            <div class="text-muted">
+                                                Este es el producto que representa el Seguro de limite responsabilidad para los clientes que lo tengan definido
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="producto_seguro_limite_responsabilidad_id"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="specialHr"/>
+                            <div class="">
+                                <h5>Unidades de Medida</h5>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="">
+                                            <label string="Kilometros" for="km_uom_id"/>
+                                            <div class="text-muted">
+                                                La unidad de medida de los Kilometros
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="km_uom_id"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="">
+                                            <label string="Direcciones" for="direccion_uom_id"/>
+                                            <div class="text-muted">
+                                                La unidad de medida de las Direcciones
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="direccion_uom_id"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="">
+                                            <label string="Horas" for="hr_uom_id"/>
+                                            <div class="text-muted">
+                                                La unidad de medida de los Horas
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="hr_uom_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <label string="Jornada" for="jornada_uom_id"/>
+                                            <div class="text-muted">
+                                                La unidad de medida de las Jornadas
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="jornada_uom_id"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="specialHr"/>
+                            <div class="goodSizeAnonBussiness2">
+                                <h5>Nocturnidad y Festividades</h5>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="">
+                                            <label string="Producto Nocturnidad" for="turno_noche_product_id"/>
+                                            <div class="text-muted">
+                                                El producto que representa el plus por nocturnidad
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="turno_noche_product_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="configAnonBussiness">
+                                            <label string="Plus Nocturnidad"  for="porcentaje_turno_noche"/>
+                                            <div class="text-muted">
+                                                El porcentaje del plus por nocturnidad, poner un numero del 0 al 100
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="porcentaje_turno_noche"/> <span style="color: #7C7BAD;font-weight: bolder;font-weight: 900;">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+
+                                        <div class="">
+                                            <label string="Producto Festividades" for="extra_festividad_id"/>
+                                            <div class="text-muted">
+                                                El producto que representa el plus por festividades
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="extra_festividad_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="configAnonBussiness">
+                                            <label string="Plus Festividad" for="porcentaje_festividad"/>
+                                            <div class="text-muted">
+                                                El porcentaje del plus por festividad, poner un numero del 0 al 100
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="porcentaje_festividad"/> <span style="color: #7C7BAD;font-weight: bolder;font-weight: 900;">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="configAnonBussiness">
+                                            <label string="Comienzo Nocturnidad" for="empieza_nocturnidad"/>
+                                            <div class="text-muted">
+                                                Hora desde la que se empieza a aplicar el plus por nocturnidad
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="empieza_nocturnidad" widget="float_time" />
+                                            </div>
+                                        </div>
+                                        <div class="configAnonBussiness">
+                                            <label string="Fin Nocturnidad" for="acaba_nocturnidad"/>
+                                            <div class="text-muted">
+                                                Hora hasta la que se aplica el plus por nocturnidad
+                                            </div>
+                                            <div class="text-muted">
+                                                <field name="acaba_nocturnidad" widget="float_time"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="specialHr"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!--></OTHER><-->
+
+
+
+
+    </data>
+
+<!--
+    <data noupdate="1">
+        <record forcecreate="False" id="kilometros_por_hora" model="ir.config_parameter">
+            <field name="key">kilometros_por_jornada</field>
+            <field name="value">200</field>
+        </record>
+        <record forcecreate="False" id="default_driver" model="ir.config_parameter">
+            <field name="key">default_driver_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="default_driver" model="ir.config_parameter">
+            <field name="key">default_helper_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="kilometros_por_hora" model="ir.config_parameter">
+            <field name="key">kilometros_por_hora</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="kilometros_extra_producto_defecto" model="ir.config_parameter">
+            <field name="key">kilometros_extra_producto_defecto_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="horas_extra_producto_defecto" model="ir.config_parameter">
+            <field name="key">horas_extra_producto_defecto_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="km_uom" model="ir.config_parameter">
+            <field name="key">km_uom_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="hr_uom" model="ir.config_parameter">
+            <field name="key">hr_uom_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="jornada_uom" model="ir.config_parameter">
+            <field name="key">jornada_uom_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="direccion_uom_id" model="ir.config_parameter">
+            <field name="key">direccion_uom_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="turno_noche_product_id" model="ir.config_parameter">
+            <field name="key">turno_noche_product_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="porcentaje_turno_noche" model="ir.config_parameter">
+            <field name="key">porcentaje_turno_noche</field>
+            <field name="value">1.3</field>
+        </record>
+        <record forcecreate="False" id="empieza_nocturnidad" model="ir.config_parameter">
+            <field name="key">empieza_nocturnidad</field>
+            <field name="value">23.0</field>
+        </record>
+        <record forcecreate="False" id="acaba_nocturnidad" model="ir.config_parameter">
+            <field name="key">acaba_nocturnidad</field>
+            <field name="value">6.0</field>
+        </record>
+        <record forcecreate="False" id="producto_extra_lluvia_km" model="ir.config_parameter">
+            <field name="key">producto_extra_lluvia_km_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="producto_extra_lluvia_direccion" model="ir.config_parameter">
+            <field name="key">producto_extra_lluvia_direccion_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="producto_extra_peaje" model="ir.config_parameter">
+            <field name="key">producto_extra_peaje_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="producto_minutos_espera" model="ir.config_parameter">
+            <field name="key">producto_minutos_espera_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="tax_for_peaje" model="ir.config_parameter">
+            <field name="key">tax_for_peaje_id</field>
+            <field name="value">0</field>
+        </record>
+        <record forcecreate="False" id="tiempo_disponible_carga_y_descarga" model="ir.config_parameter">
+            <field name="key">tiempo_disponible_carga_y_descarga</field>
+            <field name="value">1.0</field>
+        </record>
+        <record forcecreate="False" id="extra_direcciones" model="ir.config_parameter">
+            <field name="key">extra_direcciones_id</field>
+            <field name="value">0</field>
+        </record>
+    </data>
+    -->
+</odoo>

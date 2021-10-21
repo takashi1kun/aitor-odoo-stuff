@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+anonbussiness_app_api_notifications,anonbussiness.app.api.user.notifications,anonbussiness_app_api.model_anonbussiness_app_notification,base.group_user,1,1,1,1
+anonbussiness_app_model_login_log,anonbussiness.app.model.login.log,anonbussiness_app_api.model_anonbussiness_app_model_login_log,base.group_user,1,1,1,1
+anonbussiness_app_model_login_log_gps,anonbussiness.app.model.login.log.gps,anonbussiness_app_api.model_anonbussiness_app_model_login_log_gps,base.group_user,1,1,1,1
+

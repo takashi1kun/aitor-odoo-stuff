@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+<template id="remove_header" inherit_id="web.menu" name="Remove Header">
+<xpath expr="//ul[contains(@class, 'oe_user_menu_placeholder')]" position="after">
+    <div id="style_remove_menu_for_portal" groups="base.group_portal">
+        <style>
+       <![CDATA[
+            nav#oe_main_menu_navbar,
+            body > div.test-ribbon,
+            body > div.o_main > div.o_sub_menu > div.o_sub_menu_footer {
+                display: none!important;
+            }
+        ]]>
+        </style>
+    </div>
+</xpath>
+<!--<xpath expr="//ul[contains(@class, 'oe_systray')]" position="attributes">
+<attribute name="groups">base.group_user</attribute>
+</xpath>--><!--
+<xpath expr="//ul[contains(@class, 'oe_user_menu_placeholder')]" position="attributes">
+<attribute name="groups">base.group_user</attribute>
+</xpath>-->
+</template>
+
+        <!--><OTHER><-->
+         <template id="assets_common" name="anonbussiness client portal backend assets" inherit_id="web.assets_common">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/css" href="/anonbussiness_client_portal/static/src/css/style.css" />
+            </xpath>
+        </template>
+        <!--></OTHER><-->
+
+    <template id="assets_backend" name="payment_assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/anonbussiness_client_portal/static/src/js/portal_widgets.js"></script>
+            <script type="text/javascript" src="/anonbussiness_client_portal/static/src/js/services_widget.js"></script>
+            <script type="text/javascript" src="/anonbussiness_client_portal/static/src/js/hide_top_widget.js"></script>
+            <script type="text/javascript" src="/anonbussiness_client_portal/static/src/js/hide_menu.js"></script>
+            <script type="text/javascript" src="/anonbussiness_client_portal/static/src/js/views.js"></script>
+            <script type="text/javascript" src="/anonbussiness_client_portal/static/src/js/csv_widget.js"></script>
+            <script type="text/javascript" src="/anonbussiness_client_portal/static/src/js/web_search_disable_add_custom_filter.js"></script>
+        </xpath>
+    </template>
+
+
+
+    </data>
+</odoo>

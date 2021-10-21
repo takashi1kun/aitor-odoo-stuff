@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+        <record forcecreate="True" id="ir_cron_run_calc_variants" model="ir.cron">
+            <field name="name">Calc Variants Each 5 minutes</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="active" eval="True"/>
+            <field name="state">code</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="code">model.cron_recalc_variants()</field>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_run_calc_hash" model="ir.cron">
+            <field name="name">ReCalc Variants in the night</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="active" eval="True"/>
+            <field name="state">code</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="(DateTime.now() + relativedelta(weekday=-2, hour=2, minute=30, second=00)).strftime('%Y-%m-%d %H:%M:%S')" />
+            <field name="doall" eval="False"/>
+            <field name="code">model.cron_check_variant_changes()</field>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,35 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+anonbussiness_client_portal_model_anonbussiness_client_portal_base_group_portal,anonbussiness.client.portal.model.anonbussiness.client.portal.base.group.portal,anonbussiness_client_portal.model_anonbussiness_client_portal,base.group_portal,1,1,1,1
+anonbussiness_client_portal_model_sale_order_base_group_portal,anonbussiness.client.portal.model.sale.order.base.group.portal,sale.model_sale_order,base.group_portal,1,0,0,0
+anonbussiness_client_portal_model_sale_order_line_base_group_portal,anonbussiness.client.portal.model.sale.order.line.base.group.portal,sale.model_sale_order_line,base.group_portal,1,0,0,0
+anonbussiness_client_portal_model_account_invoice_base_group_portal,anonbussiness.client.portal.model.account.invoice.base.group.portal,account.model_account_invoice,base.group_portal,1,0,0,0
+anonbussiness_client_portal_model_custody_document_base_group_portal,anonbussiness.client.portal.model.custody.document.base.group.portal,custody_document_anonbussiness.model_custody_document,base.group_portal,1,0,0,0
+anonbussiness_client_portal_model_res_partner_base_group_portal,anonbussiness.client.portal.model.res.partner.base.group.portal,base.model_res_partner,base.group_portal,1,1,0,0
+anonbussiness_client_portal_model_res_users_base_group_portal,anonbussiness.client.portal.model.res.users.base.group.portal,base.model_res_users,base.group_portal,1,1,0,0
+anonbussiness_client_portal_model_mail_message_base_group_portal,anonbussiness.client.portal.model.mail.message.base.group.portal,mail.model_mail_message,base.group_portal,1,0,0,0
+anonbussiness_client_portal_model_mail_notification_base_group_portal,anonbussiness.client.portal.model.mail.notification.base.group.portal,mail.model_mail_notification,base.group_portal,1,0,0,0
+"anonbussiness_client_portal_modelaccess_ir_model_user","anonbussiness.client.portal.model.ir_model_all","base.model_ir_model",base.group_portal,1,0,0,0
+"anonbussiness_client_portal_modelaccess_ir_model_data_user","anonbussiness.client.portal.model.ir_model_data user","base.model_ir_model_data",base.group_portal,1,0,1,0
+"anonbussiness_client_portal_modelaccess_ir_model_fields_user","anonbussiness.client.portal.model.ir_model_fields all","base.model_ir_model_fields",base.group_portal,1,0,0,0
+"anonbussiness_client_portal_modelaccess_ir_ui_menu_group_user","anonbussiness.client.portal.model.ir_ui_menu group_user","base.model_ir_ui_menu",base.group_portal,1,0,0,0
+"anonbussiness_client_portal_modelaccess_ir_default_group_user","anonbussiness.client.portal.model.ir_default group_user","base.model_ir_default","base.group_portal",1,1,1,1
+"anonbussiness_client_portal_modelaccess_res_groups_group_user","anonbussiness.client.portal.model.res_groups group_user","base.model_res_groups",base.group_portal,1,0,0,0
+"anonbussiness_client_portal_modelaccess_ir_filter_user","anonbussiness.client.portal.model.ir_filters all","base.model_ir_filters","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_sale_order","anonbussiness.client.portal.model.sale.order","sale.model_sale_order","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_sale_order_line","anonbussiness.client.portal.model.sale.order.line","sale.model_sale_order_line","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_account_invoice","anonbussiness.client.portal.model.account.invoice","account.model_account_invoice","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_account_move","anonbussiness.client.portal.model.account.move","account.model_account_move","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_account_tax","anonbussiness.client.portal.model.account.tax","account.model_account_tax","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_account_tax_group","anonbussiness.client.portal.model.account.tax.group","account.model_account_tax_group","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_account_invoice_tax","anonbussiness.client.portal.model.account.invoice.tax","account.model_account_invoice_tax","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_account_move_line","anonbussiness.client.portal.model.account.move.line","account.model_account_move_line","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_account_invoice_line","anonbussiness.client.portal.model.account.invoice.line","account.model_account_invoice_line","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_custody_document","anonbussiness.client.portal.model.custody.document","custody_document_anonbussiness.model_custody_document","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_custody_case_level","anonbussiness.client.portal.model.custody.case.level","project_custom_anonbussiness.model_custody_case_level","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_sale_service","anonbussiness.client.portal.model.sale.service","sale_service_anonbussiness.model_sale_service","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_product_template","anonbussiness.client.portal.model.product.template","product.model_product_template","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_product_product","anonbussiness.client.portal.model.product.product","product.model_product_product","base.group_portal",1,0,0,0
+anonbussiness_client_portal_model_portal_request_base_group_portal,anonbussiness.client.portal.model.portal.request.base.group.portal,anonbussiness_client_portal.model_portal_request,base.group_portal,1,1,1,1
+"anonbussiness_client_portal_modelaccess_product_pricelist","anonbussiness.client.portal.model.product.pricelist","product.model_product_pricelist","base.group_portal",1,0,0,0
+"anonbussiness_client_portal_modelaccess_product_pricelist_item","anonbussiness.client.portal.model.product.pricelist.item","product.model_product_pricelist_item","base.group_portal",1,0,0,0
+anonbussiness_client_portal_model_portal_request_group_portal_manager,anonbussiness.client.portal.model.portal.request.group.portal.manager,anonbussiness_client_portal.model_portal_request,anonbussiness_client_portal.group_portal_manager,1,1,0,1

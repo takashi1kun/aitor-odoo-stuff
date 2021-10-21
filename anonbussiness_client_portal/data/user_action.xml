@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record model="res.groups" id="base.group_portal">
+        <field name="user_action_id" ref="anonbussiness_client_portal.action_anonbussiness_client_portal"/>
+    </record>
+</odoo>

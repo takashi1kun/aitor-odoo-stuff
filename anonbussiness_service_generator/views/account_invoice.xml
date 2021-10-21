@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+
+
+        <!--><FORMS><-->
+  <record id="account_invoice_original_document_form_purchase" model="ir.ui.view">
+            <field name="name">account.invoice.original.document.form.purchase</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//sheet/notebook/page[@name='other_info']/group/group/field[@name='name']" position="after">
+
+                    <field name="unique_reference_code" attrs="{'invisible':['|',('unique_reference_code', '=', ''),('unique_reference_code', '=', False)]}" string="Referncias unificadas" readonly="1"/>
+     <field name="sv_roots" string="Servicios Origen" widget="many2many_tags" readonly="1"/>
+            </xpath>
+          <xpath expr="//sheet/notebook//page//field[@name='invoice_line_ids']/tree//field[@name='name']" position="after">
+
+                    <field name="unique_reference_code" string="Referncia Unificada" readonly="1"/>
+    <field name="sv_roots" string="Servicios Origen" widget="many2many_tags" readonly="1"/>
+            </xpath>
+            </field>
+        </record>
+        <record id="account_invoice_original_document_form" model="ir.ui.view">
+            <field name="name">account.invoice.original.document.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//sheet/notebook/page[@name='other_info']/group/group/field[@name='name']" position="after">
+
+                    <field name="unique_reference_code" attrs="{'invisible':['|',('unique_reference_code', '=', ''),('unique_reference_code', '=', False)]}" string="Referncias unificadas" readonly="1"/>
+                    <field name="sv_roots" string="Servicios Origen" widget="many2many_tags" readonly="1"/>
+
+            </xpath>
+          <xpath expr="//sheet/notebook//page//field[@name='invoice_line_ids']/tree//field[@name='name']" position="after">
+<field name="is_reference_editable" invisible="1"/>
+                    <field name="unique_reference_code_visual" string="Referencia Unificada" attrs="{'readonly':[('is_reference_editable', '=', False)]}"/>
+              <field name="unique_reference_code" string="Referencia Unificada" invisible="1" />
+              <field name="unique_reference_code_manual" string="Referencia Unificada" invisible="1"/>
+                    <field name="sv_roots" string="Servicios Origen" widget="many2many_tags" readonly="1"/>
+            </xpath>
+            </field>
+        </record>
+
+        <!--></FORMS><-->
+
+
+
+
+        <!--><TREES><-->
+
+        <!--<record id="account_invoice_original_document_tree" model="ir.ui.view">
+            <field name="name">purchase.order.original.document.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="unique_reference_code" readonly="1" string="Ref. Unificada" />
+                </field>
+                <field name="partner_id" position="before">
+                    <field name="SO_id" invisible="1"/>
+                    <field name="SO_ids" invisible="1"/>
+                    <field name="has_driver" invisible="1"/>
+                    <field name="has_driver_str" string="🚚" class="anonbussinessDriverStrClass" readonly="1"/>
+                </field>
+                <field name="state" position="after">
+                    <field name="source_service"/>
+                    <field name="driver_state"/>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="string">Conductor/Cliente</attribute>
+                </field>
+                <field name="date_order" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        -->
+
+        <!--></TREES><-->
+
+
+
+        <!--><FILTERS><-->
+<!-->
+        <record id="view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">request.quotation.select</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="unique_reference_code" string="Ref. Unificada" />
+                    <field name="partner_id" filter_domain="[ ('partner_id.is_driver','=',True)]" string="Conductor"/>
+                    <field name="driver_state" string="Estado de Asignacion del Conductor"/>
+                    <separator/>
+                    <filter string="No es Conductor" domain="[('driver_state','=','no_driver')]" name="only_no_driver"/>
+                    <filter string="Sin Conductor Asignado" domain="[('driver_state','=','not_set')]" name="only_not_assigned_driver"/>
+                    <filter string="Con Conductor Asignado" domain="[('driver_state','=','set')]" name="only_assigned_driver"/>
+                    <separator/>
+                    <filter string="YA" domain="[('source_service','=',False)]" name="type_ya"/>
+                    <filter string="FIJO" domain="[('source_service.tipo_producto','=','fijo')]" name="type_fixed"/>
+                    <filter string="PLANIFICADO" domain="[('source_service.tipo_producto','=','planificado')]" name="type_planned"/>
+                    <separator/>
+                </field>
+                <xpath expr="//group/filter[last()]" position="after">
+                    <separator/>
+                    <filter name="driver_groupby" string="Conductor" domain="[('partner_id.is_driver', '=', True)]" context="{'group_by':'partner_id'}"/>
+                    <filter name="driver_state_groupby" string="Estado Asignacion del Conductor" domain="[]" context="{'group_by':'driver_state'}"/>
+
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+ <-->
+
+        <!--></FILTERS><-->
+
+
+
+        <!--><OTHER><-->
+
+         <record id="account_payment_mode_original_document_form" model="ir.ui.view">
+            <field name="name">account.payment.mode.original.document.form</field>
+            <field name="model">account.payment.mode</field>
+            <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form"/>
+            <field name="arch" type="xml">
+          <xpath expr="//field[@name='variable_journal_ids']" position="after">
+
+              <field name="is_transfer" />
+              <field name="iban_code" invisible="1" />
+            </xpath>
+            </field>
+        </record>
+        <!--></OTHER><-->
+
+
+
+        <!--><ACTIONS><-->
+        <!--></ACTIONS><-->
+
+
+
+
+    </data>
+</odoo>

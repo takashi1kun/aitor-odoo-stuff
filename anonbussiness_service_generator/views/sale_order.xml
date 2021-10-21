@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2019, 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+
+
+        <!--><FORMS><-->
+
+       <record id="sale_order_original_document_form" model="ir.ui.view">
+        <field name="name">sale.order.original.document.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree" position="attributes">
+                <attribute name="editable" />
+            </xpath>
+            <xpath expr="//sheet/div[hasclass('oe_title')]/h1" position="after">
+                <h4 style="margin-top: -4px;" attrs="{'invisible':['|',('unique_reference_code', '=', ''),('unique_reference_code', '=', False)]}">
+                    <field name="unique_reference_code" readonly="1"/>
+                </h4>
+            </xpath>
+            <field name="partner_id" position="after">
+                <field name="PO_id" invisible="1" />
+                <field name="driver" string="Conductor" readonly="1" attrs="{'invisible':[('PO_id', '!=', False)]}" />
+                <field name="driver_state" string="Estado Conductor" attrs="{'invisible':[('PO_id', '!=', False)]}" readonly="1" />
+            </field>
+            <xpath expr="//sheet/group/group/field[@name='validity_date']" position="replace">
+                    <field name="date_order" string="Fecha de Pedido"/>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='confirmation_date']" position="replace">
+            </xpath>
+            <xpath expr="//sheet/notebook/page/group/group/field[@name='date_order']" position="after">
+                <field name="validity_date" attrs="{'invisible': [('state', 'in', ['sale', 'done'])]}"/>
+                <field name="confirmation_date" attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
+            </xpath>
+            <field name="origin" position="after">
+
+                <field name="source_service" attrs="{
+                'invisible':[
+                    ('source_service', '=', False)
+                ]
+                }"/>
+            </field>
+            <xpath expr="//notebook//page[1]" position="after">
+                <page string="Nota Servicio" attrs="{'invisible':[('source_service', '=', False)]}">
+                    <field name="svroot_note" attrs="{'invisible':[('source_service', '=', False)]}" nolabel="1" widget="html" />
+                    <div class="oe_clear"/>
+                </page>
+            </xpath>
+        </field>
+</record>
+
+        <!--></FORMS><-->
+
+
+
+
+        <!--><TREES><-->
+
+        <record id="sale_order_original_document_tree" model="ir.ui.view">
+            <field name="name">sale.order.original.document.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="unique_reference_code" readonly="1" string="Ref. Unificada" />
+                </field>
+                <field name="confirmation_date"  position="after">
+                    <field name="date_order" string="Fecha de pedido"/>
+                </field>
+                <field name="confirmation_date"  position="attributes">
+                            <attribute name="invisible">True</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                            <attribute name="string">Comercial / Conductor</attribute>
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="user_id" position="before">
+                    <field name="PO_id" invisible="1" />
+                    <field name="driver" string="Conductor" readonly="1" />
+                </field>
+                <field name="state" position="after">
+                    <field name="driver_state" string="Conductor Asignado" readonly="1" />
+                    <field name="service_driver_praxya" invisible="1" readonly="1" />
+                    <field name="source_service" attrs="{
+                    'invisible':[
+                        ('source_service', '=', False)
+                    ]
+                    }"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="sale_order_original_document_tree_quotation_dates" model="ir.ui.view">
+            <field name="name">sale.order.original.document.tree.quotation.dates</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_order_dates.view_quotation_tree_date"/>
+            <field name="arch" type="xml">
+                <field name="requested_date" position="attributes">
+                            <attribute name="invisible">1</attribute>
+                </field>
+                <field name="commitment_date" position="attributes">
+                            <attribute name="invisible">1</attribute>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="sale_order_original_document_tree_quotation" model="ir.ui.view">
+            <field name="name">sale.order.original.document.tree.quotation</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="date_order" position="attributes">
+                            <attribute name="string">Fecha de pedido</attribute>
+                </field>
+                <field name="requested_date" position="attributes">
+                            <attribute name="invisible">1</attribute>
+                </field>
+                <field name="commitment_date" position="attributes">
+                            <attribute name="invisible">1</attribute>
+                </field>
+<!--                <field name="requested_date" position="attributes">-->
+<!--                            <attribute name="invisible">True</attribute>-->
+<!--                </field>-->
+<!--                <field name="commitment_date" position="attributes">-->
+<!--                            <attribute name="invisible">True</attribute>-->
+<!--                </field>-->
+                <field name="user_id" position="before">
+                    <field name="PO_id" invisible="1" />
+                    <field name="service_driver_praxya" invisible="1" readonly="1" />
+                    <field name="driver" string="Conductor" readonly="1" invisible="1" />
+                </field>
+                <field name="state" position="after">
+                    <field name="source_service" attrs="{
+                    'invisible':[
+                        ('source_service', '=', False)
+                    ]
+                    }"/>
+                </field>
+            </field>
+        </record>
+
+        <!--></TREES><-->
+
+
+
+        <!--><FILTERS><-->
+
+
+        <record id="view_sales_order_filter_driver" model="ir.ui.view">
+            <field name="name">sale.order.list.select.driver</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="unique_reference_code" string="Ref. Unificada" />
+                    <field name="driver" string="Conductor"/>
+                    <field name="driver_state" string="Estado de Asignacion del Conductor"/>
+                    <separator/>
+                    <filter string="No es Conductor" domain="[('driver_state','=','no_driver')]" name="only_no_driver"/>
+                    <filter string="Sin Conductor Asignado" domain="[('driver_state','=','not_set')]" name="only_not_assigned_driver"/>
+                    <filter string="Con Conductor Asignado" domain="[('driver_state','=','set')]" name="only_assigned_driver"/>
+                    <separator/>
+                    <filter string="YA" domain="[('service_driver_praxya','=','ya')]" name="type_ya"/>
+                    <filter string="FIJO" domain="[('service_driver_praxya','=','fijo')]" name="type_fixed"/>
+                    <filter string="PLANIFICADO" domain="[('service_driver_praxya','=','planificado')]" name="type_planned"/>
+                    <separator/>
+
+                </field>
+                <xpath expr="//group/filter[@name='customer']" position="after">
+                    <separator/>
+                    <filter name="driver_groupby" string="Conductor" domain="[('driver', '!=', False)]" context="{'group_by':'driver'}"/>
+                    <filter name="driver_state_groupby" string="Estado Asignacion del Conductor" domain="[]" context="{'group_by':'driver_state'}"/>
+                        <filter string="Tipo de Producto" context="{'group_by':'service_driver_praxya'}"/>
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--></FILTERS><-->
+
+
+
+        <!--><OTHER><-->
+        <!--></OTHER><-->
+
+
+
+        <!--><ACTIONS><-->
+         <record id="sale.action_quotations" model="ir.actions.act_window">
+            <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
+        </record>
+        <!--></ACTIONS><-->
+
+
+
+
+    </data>
+</odoo>

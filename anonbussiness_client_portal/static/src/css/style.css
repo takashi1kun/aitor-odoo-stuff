@@ -1,0 +1,154 @@
+.flexproductids {
+display:flex!important;
+flex-wrap:wrap!important;
+}
+.flexproductids > div {
+width:20%!important;
+}
+div.o_custom_client_portal > div.o_portal_client_container {
+  padding: 0px 40px; }
+  div.o_custom_client_portal > div.o_portal_client_container .flex-row {
+    display: flex; }
+  div.o_custom_client_portal > div.o_portal_client_container > h1,
+  div.o_custom_client_portal > div.o_portal_client_container h2 {
+    margin-left: -10px; }
+  div.o_custom_client_portal > div.o_portal_client_container a.custom_link {
+    font-style: italic; }
+  div.o_custom_client_portal > div.o_portal_client_container div.row {
+    display: flex; }
+  div.o_custom_client_portal > div.o_portal_client_container > p {
+    max-width: 679px;
+    margin-bottom: 30px;
+    font-size: 1.5em;
+    text-align: justify; }
+  div.o_custom_client_portal > div.o_portal_client_container > h1 {
+    font-size: 3.4em; }
+  div.o_custom_client_portal > div.o_portal_client_container > h2 {
+    font-size: 2.5em;
+    padding-top: 10px; }
+  div.o_custom_client_portal > div.o_portal_client_container div.card {
+    background: white;
+    box-shadow: 0 0 4px 1px #6f6f6f;
+    border-radius: 5px;
+    padding: 2px 20px;
+    margin: 17px;
+    min-height: calc(100% - 34px);
+    display: flex;
+    flex-direction: column; }
+    div.o_custom_client_portal > div.o_portal_client_container div.card > h4 {
+      font-size: 1.2em; }
+    div.o_custom_client_portal > div.o_portal_client_container div.card > .divisor {
+      width: 100%;
+      display: block;
+      border-bottom: 1px solid gray;
+      margin-top: -4px;
+      margin-bottom: 6px; }
+    div.o_custom_client_portal > div.o_portal_client_container div.card > p {
+      margin-bottom: 1px; }
+      div.o_custom_client_portal > div.o_portal_client_container div.card > p div {
+        width: 100%; }
+      div.o_custom_client_portal > div.o_portal_client_container div.card > p ul {
+        list-style: none;
+        margin-block: unset;
+        margin-inline: unset;
+        padding-inline-start: 12px;
+        width: 100%; }
+        div.o_custom_client_portal > div.o_portal_client_container div.card > p ul > li {
+          border-bottom: 1px solid #dfdfdf;
+          width: 100%; }
+    div.o_custom_client_portal > div.o_portal_client_container div.card > a {
+      margin-top: auto;
+      text-align: right; }
+  div.o_custom_client_portal > div.o_portal_client_container .card {
+    background: white;
+    box-shadow: 0 0 4px 1px #6f6f6f;
+    border-radius: 5px;
+    padding: 2px 20px;
+    margin: 17px;
+    min-height: calc(100% - 34px);
+    display: flex;
+    flex-direction: column;
+    border: 0px; }
+  div.o_custom_client_portal > div.o_portal_client_container div.service_contract > label {
+    margin-top: auto;
+    text-align: right;
+    color: #7c7bad;
+    display: block;
+    cursor: pointer; }
+    div.o_custom_client_portal > div.o_portal_client_container div.service_contract > label:before {
+      content: "Ver Todos"; }
+  div.o_custom_client_portal > div.o_portal_client_container div.service_contract > input[type='checkbox'] {
+    display: none; }
+  div.o_custom_client_portal > div.o_portal_client_container div.service_contract input.toggle:checked + .o_field_suggested_services {
+    max-height: 100vh; }
+  div.o_custom_client_portal > div.o_portal_client_container div.service_contract input.toggle:checked + .o_field_suggested_services + label.lbl-toggle:before {
+    content: "Ver Menos" !important; }
+  div.o_custom_client_portal > div.o_portal_client_container div.service_contract > .o_field_suggested_services {
+    max-height: 285px;
+    overflow: hidden;
+    transition: max-height .25s ease-in-out; }
+  div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto; }
+    div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card {
+      width: 150px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      margin-left: 14px !important;
+      margin-right: 14px !important; }
+      div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card > img {
+        margin: 0px auto;
+        height: 75px; }
+      div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card > h5 {
+        margin: 0px auto;
+        font-size: 18px;
+        text-align: center;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        font-size: 12px; }
+      div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card > .content {
+        background: rgba(0, 0, 0, 0.7);
+        bottom: -100%;
+        color: #fff;
+        height: 100%;
+        left: 0%;
+        text-align: center;
+        position: absolute;
+        transition: bottom 0.5s ease;
+        width: 100%;
+        border-radius: 5px; }
+        div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card > .content > span {
+          position: absolute; }
+          div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card > .content > span.plus-sign {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14ch;
+            line-height: 1ch;
+            height: 1ch; }
+          div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card > .content > span.text {
+            bottom: 5px;
+            left: 0px;
+            width: 100%;
+            font-size: 16px;
+            letter-spacing: 4px; }
+        div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card > .content > button {
+          background: none;
+          color: inherit;
+          border: none;
+          padding: 0;
+          font: inherit;
+          cursor: pointer;
+          outline: inherit;
+          z-index: 10;
+          position: relative;
+          margin: auto 0px;
+          width: 100%;
+          height: 100%; }
+      div.o_custom_client_portal > div.o_portal_client_container div.service_contract .service-card-container .service-card:hover > .content {
+        bottom: 0%; }

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2019, 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+
+
+        <!--><FORMS><-->
+
+        <record id="stock_picking_original_document_form" model="ir.ui.view">
+            <field name="name">stock.picking.original.document.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//sheet/h1[hasclass('hidden-xs')]" position="after">
+                <h4 style="margin-top: -10px;" attrs="{'invisible':['|',('unique_reference_code', '=', ''),('unique_reference_code', '=', False)]}">
+                    <field name="unique_reference_code" readonly="1"/>
+                </h4>
+            </xpath>
+                <field name="partner_id" position="after">
+                    <field name="driver_picking_type" invisible="1"/>
+                    <field name="real_client_id" attrs="{'invisible':[('driver_picking_type', '=', 'odoo_default')]}" string="Cliente Servicio"/>
+                </field>
+                <field name="origin" position="after">
+                    <field name="driver_state" />
+                    <field name="source_service" attrs="{
+                    'invisible':[
+                        ('source_service', '=', False)
+                    ]
+                    }"/>
+                </field>
+            </field>
+        </record>
+
+        <!--></FORMS><-->
+
+
+
+
+        <!--><TREES><-->
+
+        <record id="stock_picking_original_document_tree" model="ir.ui.view">
+            <field name="name">stock.picking.original.document.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="unique_reference_code" readonly="1" string="Ref. Unificada" />
+                    <field name="real_client_id" string="Cliente Servicio"/>
+                </field>
+                <field name="state" position="after">
+                    <field name="driver_state" />
+                    <field name="source_service" attrs="{
+                    'invisible':[
+                        ('source_service', '=', False)
+                    ]
+                    }"/>
+                </field>
+            </field>
+        </record>
+
+        <!--></TREES><-->
+
+
+
+        <!--><FILTERS><-->
+
+      <record id="view_picking_internal_search" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="unique_reference_code" string="Ref. Unificada" />
+                    <field name="real_client_id" filter_domain="[('driver_picking_type', '!=', 'odoo_default')]" string="Cliente Servicio"/>
+                    <field name="partner_id" filter_domain="[ ('partner_id.is_driver','=',True)]" string="Conductor"/>
+                    <field name="driver_state" string="Estado de Asignacion del Conductor"/>
+                    <field name="driver_picking_type" string="Tipo de albaran" />
+                    <separator/>
+                    <filter string="No es Conductor" domain="[('driver_state','=','no_driver')]" name="only_no_driver"/>
+                    <filter string="Sin Conductor Asignado" domain="[('driver_state','=','not_set')]" name="only_not_assigned_driver"/>
+                    <filter string="Con Conductor Asignado" domain="[('driver_state','=','set')]" name="only_assigned_driver"/>
+                    <separator/>
+                </field>
+                <xpath expr="//group/filter[@name='picking_type']" position="after">
+                    <separator/>
+                    <filter name="driver_groupby" string="Conductor" domain="[('partner_id.is_driver','=',True)]" context="{'group_by':'partner_id'}"/>
+                    <filter name="client_service_groupby" string="Cliente Servicio" domain="[('driver_picking_type', '!=', 'odoo_default')]" context="{'group_by':'real_client_id'}"/>
+                    <filter name="driver_state_groupby" string="Estado Asignacion del Conductor" domain="[]" context="{'group_by':'driver_state'}"/>
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--></FILTERS><-->
+
+
+
+        <!--><OTHER><-->
+        <!--></OTHER><-->
+
+
+
+        <!--><ACTIONS><-->
+        <!--></ACTIONS><-->
+
+
+
+
+    </data>
+</odoo>

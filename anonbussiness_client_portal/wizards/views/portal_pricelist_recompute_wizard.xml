@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="portal_pricelist_recompute_wizard_form" model="ir.ui.view">
+            <field name="name">portal.pricelist.recompute.wizard.form</field>
+            <field name="model">portal.pricelist.recompute.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Recálculo de tarifas del portal">
+                    <group>
+                        <h2>Recalcula las tarifas accesibles de los usuarios de portal</h2>
+                    </group>
+                    <footer>
+                        <button type="object" string="Recalcular" name="btn_recompute" class="btn-primary"/>
+                        <button type="object" string="Salir" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_portal_pricelist_recompute_wizard" model="ir.actions.act_window">
+            <field name="name">Recálculo de tarifas del portal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">portal.pricelist.recompute.wizard</field>
+            <field name="view_type">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="portal_pricelist_recompute_wizard_form"/>
+        </record>
+    </data>
+</odoo>

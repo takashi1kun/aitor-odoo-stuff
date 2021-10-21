@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2019, 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+
+
+        <!--><FORMS><-->
+
+        <record id="product_service_type_praxya_form" model="ir.ui.view">
+            <field name="name">product.service.type.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="service_type_praxya" string="tipo de servicio" />
+                    <field name="helper_type" attrs="{'invisible': [('service_type_praxya', 'not in', ['ya', 'planificado', 'fijo'])]}" />
+
+                     <field name="hr_uom_id" invisible="1" readonly="1" />
+                     <field name="km_uom_id" invisible="1" readonly="1" />
+
+                    <field string="Producto Horas Extra"
+                           domain="[
+                           ('service_type_praxya', '=', 'ya'), ('uom_id', '=', hr_uom_id)
+                           ]"
+                           attrs="{
+                        'invisible': [
+                            ('service_type_praxya', 'not in', ['fijo', 'planificado', 'ya'])
+                        ]
+                    }" name="product_ya_id"/>
+
+                    <field string="Producto Kilometros Extra"
+                           domain="[
+                           ('service_type_praxya', '=', 'ya'), ('uom_id', '=', km_uom_id)
+                           ]"
+                           attrs="{
+                        'invisible': [
+                            ('service_type_praxya', 'not in', ['fijo', 'planificado', 'ya'])
+                        ]
+                    }" name="product_ya_km_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--></FORMS><-->
+
+
+
+
+        <!--><TREES><-->
+
+        <record id="product_service_type_praxya_tree" model="ir.ui.view">
+            <field name="name">product.service.type.tree</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='uom_id']" position="after">
+                    <field string="tipo de servicio" name="service_type_praxya"/>
+                     <field name="hr_uom_id" invisible="1" readonly="1" />
+                    <field string="Producto Horas Extra"
+                           domain="[('service_type_praxya', '=', 'ya'), ('uom_id', '=', hr_uom_id.id)]"
+                           attrs="{
+                        'invisible': [
+                            ('service_type_praxya', 'not in', ['fijo', 'planificado'])
+                        ]
+                    }" name="product_ya_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--></TREES><-->
+
+
+
+        <!--><FILTERS><-->
+        <!--></FILTERS><-->
+
+
+
+        <!--><OTHER><-->
+        <!--></OTHER><-->
+
+
+
+        <!--><ACTIONS><-->
+        <!--></ACTIONS><-->
+
+
+
+
+    </data>
+</odoo>

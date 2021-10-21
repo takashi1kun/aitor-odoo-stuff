@@ -1,0 +1,272 @@
+<odoo>
+    <data>
+         <record id="appnc_timesheet_form" model="ir.ui.view">
+              <field name="name">appnc.timesheet.form</field>
+              <field name="model">appnc.timesheet</field>
+              <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                             <group>
+                                 <field name="date" />
+                                <field name="user_id" />
+                                <field name="project_id" />
+                    <field name="task_id" />
+                                <field name="partner_id" />
+                                <field name="coordinates" widget="googlemap" />
+                             </group>
+                             <group>
+                                 <field name="time_field" widget="timesheet_uom" />
+                                <field name="time_field_extra" widget="timesheet_uom" />
+                                <field name="time_cabinet_extra" widget="timesheet_uom" />
+                                <field name="equipment_ids" widget="many2many_checkboxes"/>
+                                <field name="consumption_stakes" />
+                                <field name="consumption_spray" />
+                             </group>
+                        </group>
+                        <notebook>
+                            <page string="Campos Productividad">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="parent_id" invisible="1"/>
+                                        <field name="field_id" />
+                                        <field name="data" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Ayudantes">
+                                <field name="helper_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="user_id"
+                                        domain="[('is_helper','=', True)]" />
+                                        <field name="time_field" widget="timesheet_uom" />
+                                        <field name="parent_id" invisible="1"/>
+                                        <field name="time_field_extra" widget="timesheet_uom" />
+                                        <field name="time_cabinet_extra" widget="timesheet_uom" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Firmas">
+                                 <group>
+                                     <field name="clientrep_name" />
+                                    <field name="clientrep_position" />
+                                    <field name="clientrep_dni" />
+                                    <field name="clientrep_email" />
+                                </group>
+                                 <group>
+                                      <group>
+                                          <field widget="image" name="signature_surveyor" />
+                                      </group>
+                                      <group>
+                                          <field widget="image" name="signature_clientrep" />
+                                      </group>
+                                 </group>
+                            </page>
+                            <page string="Solicitudes de Rectificacion">
+                                <field name="rectification_ids" readonly="1">
+                                    <tree>
+                                        <field name="date_requested" readonly="1"/>
+                                        <field name="user_id" readonly="1"/>
+                                        <field name="clientrep_name" readonly="1"/>
+                                        <field name="clientrep_email" readonly="1"/>
+                                        <field name="clientrep_dni" readonly="1"/>
+                                        <field name="clientrep_position" readonly="1"/>
+                                        <field name="manager_id" readonly="1"/>
+                                        <field name="date_decided" readonly="1"/>
+                                        <field name="state" readonly="1"/>
+                                    </tree>
+                                    <form>
+                                         <header>
+                                            <field name="state" widget="statusbar" readonly="1"/>
+                                        </header>
+                                        <sheet>
+                                            <group>
+                                                 <group>
+                                                    <field name="date_requested" readonly="1"/>
+                                                    <field name="user_id" readonly="1"/>
+                                                    <field name="manager_id" readonly="1"/>
+                                                    <field name="date_decided" readonly="1"/>
+                                                 </group>
+                                                <group>
+                                                    <field name="clientrep_name" readonly="1"/>
+                                                    <field name="clientrep_email" readonly="1"/>
+                                                    <field name="clientrep_dni" readonly="1"/>
+                                                    <field name="clientrep_position" readonly="1"/>
+                                                    <field widget="image" name="clientrep_signature" readonly="1"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+              </field>
+         </record>
+         <record id="appnc_timesheet_tree" model="ir.ui.view">
+              <field name="name">appnc.timesheet.tree</field>
+              <field name="model">appnc.timesheet</field>
+              <field name="arch" type="xml">
+                <tree>
+                     <field name="date" />
+                    <field name="user_id" />
+                    <field name="task_id" />
+                    <field name="project_id" />
+                    <field name="partner_id" />
+                     <field name="time_field" widget="timesheet_uom" />
+                    <field name="time_field_extra" widget="timesheet_uom" />
+                    <field name="time_cabinet_extra" widget="timesheet_uom" />
+                    <field name="state"/>
+                </tree>
+              </field>
+         </record>
+        <record id="appnc_timesheet_rectification_form" model="ir.ui.view">
+              <field name="name">appnc.timesheet.rectification.form</field>
+              <field name="model">appnc.timesheet.rectification</field>
+              <field name="arch" type="xml">
+                <form>
+                     <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                             <group>
+                                <field name="date_requested"/>
+                                <field name="user_id"/>
+                                <field name="manager_id"/>
+                                <field name="date_decided"/>
+                             </group>
+                            <group>
+                                <field name="clientrep_name"/>
+                                <field name="clientrep_email"/>
+                                <field name="clientrep_dni"/>
+                                <field name="clientrep_position"/>
+                                <field widget="image" name="clientrep_signature"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+              </field>
+         </record>
+        <record id="appnc_timesheet_rectification_tree" model="ir.ui.view">
+              <field name="name">appnc.timesheet.rectification.tree</field>
+              <field name="model">appnc.timesheet.rectification</field>
+              <field name="arch" type="xml">
+                <tree>
+                    <field name="date_requested"/>
+                    <field name="user_id"/>
+                    <field name="clientrep_name"/>
+                    <field name="clientrep_email"/>
+                    <field name="clientrep_dni"/>
+                    <field name="clientrep_position"/>
+                    <field name="manager_id"/>
+                    <field name="date_decided"/>
+                    <field name="state"/>
+                </tree>
+              </field>
+         </record>
+         <record id="appnc_equipment_tree" model="ir.ui.view">
+              <field name="name">appnc.equipment.tree</field>
+              <field name="model">appnc.equipment</field>
+              <field name="arch" type="xml">
+                <tree editable="bottom">
+                     <field name="name" />
+                </tree>
+              </field>
+         </record>
+          <record id="appnc_equipment_action" model="ir.actions.act_window">
+            <field name="name">Equipos Topografo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">appnc.equipment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+          <record id="appnc_timesheet_action" model="ir.actions.act_window">
+            <field name="name">Partes Diarios Topógrafos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">appnc.timesheet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="appnc_timesheet_helpers" model="ir.actions.act_window">
+            <field name="name">Ayudantes</field>
+            <field name="res_model">res.users</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{
+                    'default_is_helper': True
+                }
+            </field>
+            <field name="domain">[('is_helper','=', True)]</field>
+</record>
+ <menuitem id="menu_appnc_root"
+            name="APP Topógrafos"
+            groups="base.group_user"
+            icon="fa-th"
+            web_icon="mrp,static/description/icon.png"
+            sequence="45"/>
+        <menuitem
+            id="appnc_timesheet_menu"
+            name="Partes Diarios Topógrafos"
+            action="appnc_timesheet_action"
+            parent="menu_appnc_root"
+            sequence="1"/>
+
+        <menuitem
+            id="appnc_timesheet_rectification_menu"
+            name="Solicitudes Rectificacion Partes"
+            action="appnc_timesheet_rectification_action"
+            parent="menu_appnc_root"
+            sequence="2"/>
+        <menuitem
+            id="appnc_equipment_menu"
+            name="Equipos Topógrafos"
+            action="appnc_equipment_action"
+            parent="menu_appnc_root"
+            sequence="3"/>
+
+        <menuitem
+            id="appnc_productivity_menu"
+            name="Campos Productividad"
+            action="appnc_productivity_action"
+            parent="menu_appnc_root"
+            sequence="4"/>
+        <menuitem
+            id="appnc_helpers_menu"
+            name="Ayudantes"
+            action="appnc_timesheet_helpers"
+            parent="menu_appnc_root"
+            sequence="5"/>
+            <menuitem sequence="10" id="appnc_settings_menu" name="Configuracion"
+              parent="menu_appnc_root" action="appnc_settings_action"/>
+           <record id="appnc_timesheet_rectification_action" model="ir.actions.act_window">
+            <field name="name">Solicitudes Rectificacion Partes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">appnc.timesheet.rectification</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+
+</odoo>
+
+
+
+
+
+
+
+
+
+

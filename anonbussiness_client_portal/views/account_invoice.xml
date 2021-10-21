@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="account_invoice_portal_form" model="ir.ui.view">
+            <field name="name">account.invoice.portal.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="priority" eval="99"/>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="arch" type="xml">
+                <form string="Factura" class="o_invoice_form no_print no_action"  create="0" delete="0" edit="0">
+                    <header>
+                        <button name="invoice_print_portal" string="Imprimir Factura" type="object" attrs="{'invisible':['|',('sent','=',True), ('state', 'not in', ('open','paid'))]}" class="oe_highlight"/>
+                        <button name="invoice_print_portal" string="Imprimir Factura" type="object" attrs="{'invisible':['|',('sent','=',False), ('state', 'not in', ('open','paid'))]}" />
+                        <field name="state" widget="statusbar_ordered" nolabel="1" readonly="1" statusbar_visible="draft,open,paid"/>
+                    </header>
+                    <field name="has_outstanding" readonly="1" invisible="1"/>
+                    <sheet string="Factura">
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <h1 class="mt0">
+                            <div attrs="{'invisible': [('sequence_number_next_prefix','!=',False)]}">
+                                <label string="Draft Invoice" attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','!=','out_invoice')]}"/>
+                                <label string="Draft Credit Note" attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','!=','out_refund')]}"/>
+                                <field name="number" readonly="1" class="oe_inline" attrs="{'invisible': [('state','in',('draft',))]}"/>
+                            </div>
+                            <div attrs="{'invisible': [('sequence_number_next_prefix','=',False)]}">
+                                <label string="Invoice Number:"/><br/>
+                                <field name="sequence_number_next_prefix" readonly="1" class="oe_inline"/>
+                                <field name="sequence_number_next" readonly="1" class="oe_inline"/>
+                            </div>
+                        </h1>
+                        <field name="type" readonly="1" invisible="1"/>
+                        <field name="fiscal_position_id" readonly="1" invisible="1"/>
+                        <field name="journal_id" groups="account.group_account_user" readonly="1" invisible="1"/>
+                        <field readonly="1" invisible="1" name="account_id" groups="account.group_account_user"/>
+                        <field name="company_id" readonly="1" invisible="1" groups="base.group_multi_company"/>
+                        <field readonly="1" invisible="1" name="partner_bank_id" />
+                        <field name="move_id" groups="account.group_account_user" readonly="1" invisible="1"/>
+                        <field name="origin" groups="base.group_user" readonly="1" invisible="1"/>
+                        <field name="name" readonly="1" invisible="1"/>
+                       <!--  <field name="tax_line_ids" readonly="1" invisible="1"/>-->
+                        <field name="payment_term_id"  readonly="1" invisible="1"/>
+                        <field name="cash_rounding_id" readonly="1" invisible="1"/>
+                        <field name="move_name"   readonly="1" invisible="1"/>
+                        <field name="user_id" readonly="1" invisible="1"/>
+                        <field name="currency_id"  groups="base.group_multi_currency" readonly="1" invisible="1" class="oe_inline"/>
+                        <field name="company_currency_id" groups="base.group_multi_currency"  readonly="1" invisible="1"/>
+                        <field name="sent"   readonly="1" invisible="1"/>
+                        <group>
+                            <group>
+                                <field string="Dirección de facturación"
+                                       name="partner_id"
+                                       widget="address_widget"
+                                       options='{"always_reload": True, "no_quick_create": True,"no_open":1}'
+                                       domain="[('customer', '=', True)]"
+                                       readonly="1"
+                                />
+                                <field string="Documento de origen"
+                                       name="origin"
+                                       readonly="1"
+                                />
+                                <field string="Tipo de servicio"
+                                       name="tipo_servicio"
+                                       readonly="1"
+                                />
+                            </group>
+                            <group>
+                                <field name="date_invoice" readonly="1"/>
+                                <field name="date_due" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Líneas de la factura">
+                                <field string="Líneas de la factura" name="invoice_line_ids" nolabel="1" widget="one2many_list" mode="tree" readonly="1" context="{'type': type, 'journal_id': journal_id, 'default_invoice_id': id}">
+                                    <tree  class="tree_no_open" string="Líneas de la factura" create="0" edit="0" readonly="1" editable="bottom">
+                                        <field name="sequence" readonly="1" invisible="1" widget="handle"/>
+                                        <field name="product_id" readonly="1" invisible="1" domain="[('sale_ok','=',True)]"/>
+                                        <field name="origin" readonly="1" invisible="1" />
+                                        <field name="is_rounding_line" readonly="1" invisible="1" />
+                                        <field name="company_id" readonly="1" invisible="1" />
+                                        <field name="account_id" groups="account.group_account_user" readonly="1" invisible="1" domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other'), ('deprecated', '=', False)]"/>
+                                        <field name="account_analytic_id" readonly="1" invisible="1" groups="analytic.group_analytic_accounting" domain="[('company_id', '=', parent.company_id)]"/>
+                                        <field name="analytic_tag_ids" readonly="1" invisible="1" groups="analytic.group_analytic_accounting" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                        <field name="uom_id" readonly="1" invisible="1" groups="product.group_uom"/>
+                                        <field name="discount" readonly="1" invisible="1" groups="base.group_no_one"/>
+                                        <field name="currency_id" readonly="1" invisible="1" />
+                                        <field name="name" readonly="1" string="Descripción"/>
+                                        <field name="quantity" readonly="1" string="Cantidad" />
+                                        <field name="price_unit" readonly="1" string="Precio Unidad" />
+                                       <field name="invoice_line_tax_ids" widget="many2many_tags"  readonly="1" string="Impuestos" />
+                                        <field name="price_subtotal" readonly="1" string="Subtotal" />
+                                        <field name="price_total" readonly="1" string="Total" />
+
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field string="Base imponible" name="amount_untaxed" readonly="1"/>
+                                    <field string="Impuesto" name="amount_tax" readonly="1"/>
+                                    <field string="Total" name="amount_total" readonly="1" class="oe_subtotal_footer_separator"/>
+                                    <field name="payments_widget" readonly="1" colspan="2" nolabel="1" widget="payment"/>
+                                    <field string="Saldo" name="residual" readonly="1" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                                    <field name="reconciled" readonly="1" invisible="1"/>
+                                    <field name="outstanding_credits_debits_widget" readonly="1" colspan="2" nolabel="1" widget="payment" attrs="{'invisible': [('state', 'not in', 'open')]}"/>
+                                </group>
+                                <field name="comment" readonly="1" attrs="{'invisible': [('comment', '=', False)]}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record id="account_invoice_portal_tree" model="ir.ui.view">
+            <field name="name">account.invoice.portal.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="99"/>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="arch" type="xml">
+                <tree class="o_account_invoice no_action"  create="0" delete="0" edit="0">
+                    <field name="partner_id" readonly="1" invisible="1"/>
+                    <field name="commercial_partner_id" readonly="1" invisible="1"/>
+                    <field name="reference" readonly="1" invisible="1"/>
+                    <field name="name" readonly="1" invisible="1"/>
+                    <field name="journal_id" readonly="1" invisible="1"/>
+                    <field name="company_id" readonly="1" invisible="1"/>
+                    <field name="user_id" readonly="1" invisible="1"/>
+                    <field name="currency_id" readonly="1" invisible="1"/>
+                    <field name="company_currency_id" readonly="1" invisible="1"/>
+                    <field name="type" readonly="1" invisible="1"/>
+                    <field name="date_invoice" string="Fecha de factura" readonly="1" />
+                    <field name="number" string="Número" readonly="1"/>
+                    <field name="date_due" string="Fecha vencimiento" readonly="1"/>
+                    <field name="origin" string="Doc. origen" readonly="1"/>
+                    <field name="tipo_servicio" string="Tipo de servicio" readonly="1"/>
+                    <field name="amount_total_signed" string="Total" sum="Total" readonly="1"/>
+                    <field name="residual_signed" string="A Deber" sum="A Deber" readonly="1"/>
+                    <field name="state" string="Estado" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+ <record id="account_invoice_portal_search" model="ir.ui.view">
+            <field name="name">account.invoice.portal.search</field>
+            <field name="model">account.invoice</field>
+            <field name="type">search</field>
+            <field name="priority" eval="99"/>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="arch" type="xml">
+                <search string="Consultas no_edit" >
+                    <filter string="Servicio Baja" name="filter_service_baja" domain="[('tipo_servicio','=','baja')]"/>
+                    <filter string="Servicio Digitalización" name="filter_service_digitalizacion" domain="[('tipo_servicio','=','digitalizacion')]"/>
+                    <filter string="Servicio Petición Digital" name="filter_service_pdigital" domain="[('tipo_servicio','=','pdigital')]"/>
+                    <filter string="Servicio Destrucción" name="filter_service_destruccion" domain="[('tipo_servicio','=','destruccion')]"/>
+                    <filter string="Servicio Devolución" name="filter_service_devolucion" domain="[('tipo_servicio','=','devolucion')]"/>
+                    <filter string="Servicio Inserción" name="filter_service_insercion" domain="[('tipo_servicio','=','insercion')]"/>
+                    <filter string="Servicio Petición" name="filter_service_peticion" domain="[('tipo_servicio','=','peticion')]"/>
+                    <filter string="Servicio Recogida" name="filter_service_recogida" domain="[('tipo_servicio','=','recogida')]"/>
+                    <filter string="Servicio Custodia" name="filter_service_custodia" domain="[('tipo_servicio','=','custodia')]"/>
+                    <filter string="No es un servicio" name="filter_service_none" domain="['|',('tipo_servicio','=','none'),('tipo_servicio','=',False)]"/>
+                    <separator/>
+                    <filter string="Estado: Abierto" name="filter_state_open" domain="[('state','=','open')]"/>
+                    <filter string="Estado: Pagado" name="filter_state_paid" domain="[('state','=','paid')]"/>
+                    <separator/>
+
+                    <field name="number" string="Número" />
+                    <field name="date_invoice" string="Fecha de factura" />
+                    <field name="date_due" string="Fecha vencimiento" />
+                    <field name="origin" string="Doc. origen" />
+                    <field name="tipo_servicio" string="Tipo de servicio"/>
+                    <field name="state" string="Estado"/>
+                    <separator/>
+
+                    <group expand="0" string="Agrupar Por">
+                        <filter string="Tipo de servicio" domain="[]" context="{'group_by':'tipo_servicio'}" name="group_by_service"/>
+                        <separator/>
+                        <filter string="Estado" domain="[]" context="{'group_by':'state'}" name="group_by_state"/>
+                        <separator/>
+                        <filter string="Mes de la Factura" domain="[]" context="{'group_by':'date_invoice:month'}" name="groupby_month"/>
+                        <filter string="Año de la Factura" domain="[]" context="{'group_by':'date_invoice:year'}" name="groupby_year"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_anonbussiness_client_portal_my_invoices" model="ir.actions.act_window">
+            <field name="name">Mis Facturas</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="anonbussiness_client_portal.account_invoice_portal_search" />
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('anonbussiness_client_portal.account_invoice_portal_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('anonbussiness_client_portal.account_invoice_portal_form')})]"/>
+            <!--<field name="search_view_id" ref="view_payments_filter"/>-->
+            <field name="domain">[
+                ('state', 'in', ['open','paid'])
+                ]</field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_anonbussiness_client_portal_my_last_invoices" model="ir.actions.act_window">
+            <field name="name">Últimas Facturas</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="anonbussiness_client_portal.account_invoice_portal_search" />
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('anonbussiness_client_portal.account_invoice_portal_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('anonbussiness_client_portal.account_invoice_portal_form')})]"/>
+            <!--<field name="search_view_id" ref="view_payments_filter"/>-->
+            <field name="domain">[
+                ('state', 'in', ['open','paid']),
+                ('is_invoice_current_month', '=', True)
+                ]</field>
+            <field name="target">current</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="anonbussiness_app_model_task_type_tree" model="ir.ui.view">
+            <field name="name">project.task.type.tree.anonbussinesspp</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fold']" position="after">
+                    <field name="show_in_app"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="anonbussiness_app_model_task_type_form" model="ir.ui.view">
+            <field name="name">project.task.type.form.anonbussinesspp</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fold']" position="after">
+                    <field name="show_in_app"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

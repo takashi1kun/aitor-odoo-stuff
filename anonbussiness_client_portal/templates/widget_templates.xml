@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+            <template id="render_list_real">
+            <ul>
+                <li t-foreach="docs" t-as="doc">
+                    <t t-set="o" t-value="doc.render_portal_list()"/>
+                    <a t-attf-href="#{o.url}" t-esc="o.name"/>
+                </li>
+            </ul>
+        </template>
+        <template id="render_suggested_services_real">
+             <div class="service-card-container">
+                 <div  t-foreach="docs" t-as="service" class="card service-card">
+                  <!--  <img t-attf-src="data:image/png;base64, {{service.image_medium}}"/>-->
+                    <img t-attf-src="{{service.image_medium_url}}"/>
+
+                     <h5><t t-esc="service.name"></t></h5>
+                       <div class="content">
+                         <span class="plus-sign">+</span>
+                         <span class="text">Solicitar</span>
+                        <button class="o_click_add" t-attf-data="#{service.id}"></button>
+                       </div>
+                  </div>
+            </div>
+        </template>
+</odoo>

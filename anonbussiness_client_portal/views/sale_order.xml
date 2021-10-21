@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+        <record id="sale_order_portal_form" model="ir.ui.view">
+            <field name="name">sale.order.portal.form</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="priority" eval="99"/>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="arch" type="xml">
+                <form class="o_sale_order no_print no_action" create="0" edit="0" delete="0">
+                    <header>
+                        <!-- <button name="print_quotation" type="object"
+                                string="Imprimir"/>
+                       <field name="state" readonly="1" widget="statusbar"/> -->
+                        <field name="invoice_status_v2" readonly="1" widget="statusbar_ordered" statusbar_visible="project,to_invoice,invoiced"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box">
+                        <!--    <button name="view_account_moves"
+                                    class="oe_stat_button"
+                                    icon="fa-bars"
+                                    attrs="{'invisible': [('state', '=', 'draft')]}"
+                                    type="object" string="Moves"/> -->
+                        </div>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <field name="state" readonly="1" invisible="1" />
+                        <group>
+                            <group string="Direcciones">
+                                <field name="partner_invoice_id"
+                                       string="Dirección de facturación"
+                                       widget="address_widget"
+                                       options='{"always_reload": True, "no_quick_create": True,"no_open":1}'
+                                       readonly="1" />
+                                <field name="partner_shipping_id"
+                                       string="Dirección de entrega"
+                                       widget="address_widget"
+                                       options='{"always_reload": True, "no_quick_create": True,"no_open":1}'
+                                       readonly="1" />
+                            </group>
+                            <group string="Datos del Pedido">
+                                <field name="is_origin_portal" invisible="1"/>
+                                <field name="tipo_servicio" readonly="1"
+                                       options='{"always_reload": True, "no_quick_create": True,"no_open":1}'/>
+                                <field name="origin" readonly="1" string="Solicitud Origen" attrs="{'invisible':[('is_origin_portal', '=', False)]}"/>
+                                <field name="confirmation_date" string="Fecha de confirmacion" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Notas">
+                            <field name="note" nolabel="1" readonly="1"/>
+                        </group>
+                        <notebook>
+                           <page name="gestion_documentos" string="Gestión de Documentos" attrs="{'invisible': [('tipo_servicio', '=', 'custodia')]}">
+                                <field name="sale_service_ids" widget="one2many_list" mode="tree" nolabel="1" readonly="1" editable="bottom" >
+                                    <tree class="tree_no_open" string="Gestión de Documentos" create="0" edit="0" editable="top">
+                                        <field name="sale_id" invisible="1" readonly="1"/>
+                                        <field name="owner_id" invisible="1" readonly="1"/>
+                                        <field name="al_tramo" readonly="1" attrs="{'column_invisible': [('parent.tipo_servicio', 'in', ['digitalizacion', 'insercion', 'recogida'])]}"/>
+                                        <field name="inserto_id" readonly="1" domain="[('type', '=', 'consu')]"/>
+                                        <field name="inserto_qty" readonly="1"/>
+                                        <field name="anyo" readonly="1"/>
+                                        <field name="referencia" readonly="1"/>
+                                        <field name="descripcion" readonly="1" attrs="{'column_invisible': [('parent.state', '!=', 'sale'), ('parent.tipo_servicio', 'not in', ['peticion', 'pdigital', 'insercion'])]}"/>
+                                        <field name="document_id" readonly="1" attrs="{'column_invisible': [('parent.state', '!=', 'sale'), ('parent.tipo_servicio', 'not in', ['peticion', 'pdigital', 'devolucion', 'baja', 'destruccion'])]}"/>
+                                        <field name="fecha_servicio" attrs="{'column_invisible': [('parent.state','!=','sale')]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                       <!--   <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div> -->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="sale_order_portal_tree" model="ir.ui.view">
+            <field name="name">sale.order.portal.tree</field>
+            <field name="model">sale.order</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="99"/>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="arch" type="xml">
+                <tree class="o_sale_order no_print no_action"  create="0" delete="0" edit="0">
+                    <field name="partner_id" readonly="1" invisible="1"/>
+                    <field name="user_id" readonly="1" invisible="1"/>
+                    <field name="message_needaction" readonly="1" invisible="1"/>
+                    <field name="currency_id" readonly="1" invisible="1"/>
+                    <field name="invoice_status" readonly="1" invisible="1"/>
+                    <field name="amount_untaxed" widget="monetary" readonly="1" invisible="1"/>
+                    <field name="amount_tax" widget="monetary" readonly="1" invisible="1"/>
+                    <field name="amount_total"  widget="monetary" readonly="1" invisible="1"/>
+                    <field name="name" readonly="1" string="Num. Pedido" />
+                    <field name="tipo_servicio" string="Tipo de servicio" readonly="1"/>
+                    <field name="date_order" string="Fecha de solicitud" readonly="1"/>
+                    <field name="confirmation_date" string="Fecha de confirmación" readonly="1"/>
+                    <field name="invoice_status_v2" string="Estado" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="sale_order_portal_search" model="ir.ui.view">
+            <field name="name">sale.order.portal.search</field>
+            <field name="model">sale.order</field>
+            <field name="type">search</field>
+            <field name="priority" eval="99"/>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="arch" type="xml">
+                <search string="Consultas no_edit" >
+                    <filter string="Servicio Baja" name="filter_service_baja" domain="[('tipo_servicio','=','baja')]"/>
+                    <filter string="Servicio Digitalización" name="filter_service_digitalizacion" domain="[('tipo_servicio','=','digitalizacion')]"/>
+                    <filter string="Servicio Petición Digital" name="filter_service_pdigital" domain="[('tipo_servicio','=','pdigital')]"/>
+                    <filter string="Servicio Destrucción" name="filter_service_destruccion" domain="[('tipo_servicio','=','destruccion')]"/>
+                    <filter string="Servicio Devolución" name="filter_service_devolucion" domain="[('tipo_servicio','=','devolucion')]"/>
+                    <filter string="Servicio Inserción" name="filter_service_insercion" domain="[('tipo_servicio','=','insercion')]"/>
+                    <filter string="Servicio Petición" name="filter_service_peticion" domain="[('tipo_servicio','=','peticion')]"/>
+                    <filter string="Servicio Recogida" name="filter_service_recogida" domain="[('tipo_servicio','=','recogida')]"/>
+                    <filter string="Servicio Custodia" name="filter_service_custodia" domain="[('tipo_servicio','=','custodia')]"/>
+                    <filter string="No es un servicio" name="filter_service_none" domain="[('tipo_servicio','=','none')]"/>
+                    <separator/>
+                    <filter string="Estado: Venta adicional" name="filter_state_upselling" domain="[('invoice_status_v2','=','upselling')]"/>
+                    <filter string="Estado: Totalmente facturado" name="filter_state_invoiced" domain="[('invoice_status_v2','=','invoiced')]"/>
+                    <filter string="Estado: Para facturarl" name="filter_state_to_invoice" domain="[('invoice_status_v2','=','to_invoice')]"/>
+                    <filter string="Estado: OT en progresol" name="filter_state_project" domain="[('invoice_status_v2','=','project')]"/>
+                    <filter string="Estado: Nada que facturar" name="filter_state_no" domain="[('invoice_status_v2','=','no')]"/>
+                    <separator/>
+
+                    <field name="name" string="Num. Pedido"/>
+                    <field name="tipo_servicio" string="Tipo de servicio"/>
+                    <field name="date_order" string="Fecha de solicitud"/>
+                    <field name="confirmation_date" string="Fecha de confirmación"/>
+                    <field name="invoice_status_v2" string="Estado"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar Por">
+                        <filter string="Tipo de servicio" domain="[]" context="{'group_by':'tipo_servicio'}" name="group_by_service"/>
+                        <separator/>
+                        <filter string="Estado" domain="[]" context="{'group_by':'invoice_status_v2'}" name="group_by_statev2"/>
+                        <separator/>
+                        <filter string="Mes de Solicitud" domain="[]" context="{'group_by':'date_order:month'}" name="groupby_month_request"/>
+                        <filter string="Año de Solicitud" domain="[]" context="{'group_by':'date_order:year'}" name="groupby_year_request"/>
+                        <separator/>
+                        <filter string="Mes de Confirmación" domain="[]" context="{'group_by':'confirmation_date:month'}" name="groupby_month_confirm"/>
+                        <filter string="Año de Confirmación" domain="[]" context="{'group_by':'confirmation_date:year'}" name="groupby_year_confirm"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_anonbussiness_client_portal_my_orders" model="ir.actions.act_window">
+            <field name="name">Mis Pedidos</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="search_view_id" ref="anonbussiness_client_portal.sale_order_portal_search"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('anonbussiness_client_portal.sale_order_portal_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('anonbussiness_client_portal.sale_order_portal_form')})]"/>
+            <!--<field name="search_view_id" ref="view_payments_filter"/>-->
+            <field name="domain">[
+                ('state','in',['done','sale']),
+                ('partner_portal_check_id','=', context.get('uid'))
+                ]</field>
+            <field name="target">current</field>
+        </record>
+
+    </data>
+</odoo>

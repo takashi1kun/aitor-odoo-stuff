@@ -1,0 +1,34 @@
+<odoo>
+    <data noupdate="1">
+        <record id="sequence_PO_Fijo" model="ir.sequence">
+            <field name="name">Secuencia de Purchase Fijo</field>
+            <field name="code">POFJ</field>
+            <field name="prefix">POFJ/</field>
+            <field name="padding">6</field>
+        </record>
+        <record id="sequence_PO_Planificado" model="ir.sequence">
+            <field name="name">Secuencia de Purchase Planificado</field>
+            <field name="code">POPL</field>
+            <field name="prefix">POPL/</field>
+            <field name="padding">6</field>
+        </record>
+        <record id="sequence_SO_Fijo" model="ir.sequence">
+            <field name="name">Secuencia de Sale Fijo</field>
+            <field name="code">SOFJ</field>
+            <field name="prefix">SOFJ/</field>
+            <field name="padding">6</field>
+        </record>
+        <record id="sequence_SO_Planificado" model="ir.sequence">
+            <field name="name">Secuencia de Sale Planificado</field>
+            <field name="code">SOPL</field>
+            <field name="prefix">SOPL/</field>
+            <field name="padding">6</field>
+        </record>
+        <record id="sequence_AnonBussiness_Service_root" model="ir.sequence">
+            <field name="name">Secuencia de Servicios Raiz</field>
+            <field name="code">SVROOT</field>
+            <field name="prefix">SVROOT/</field>
+            <field name="padding">6</field>
+        </record>
+    </data>
+</odoo>

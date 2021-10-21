@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="custom_search_document_wizard_form" model="ir.ui.view">
+            <field name="name">custom.search.document.wizard.form</field>
+            <field name="model">custom.search.document.wizard</field>
+            <field name="inherit_id" ref="custody_document_anonbussiness.custom_search_document_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='add_documents']" position="attributes">
+                    <attribute name="invisible">context.get('menu_portal_request')</attribute>
+                </xpath>
+                <xpath expr="//field[@name='oculta_info']" position="before">
+                    <field name="filtered_domain" invisible="1"/>
+                    <field name="portal_request_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//group[@name='dirigida_left']//field[@name='product_ids']" position="replace">
+                </xpath>
+                <xpath expr="//group[@name='amplia_left']//field[@name='product_ids']" position="replace">
+                </xpath>
+
+                <xpath expr="//group[@name='dirigida']" position="before">
+                    <div name='products_dirigida' attrs="{'invisible': [('tipo_busqueda','!=','diri')]}">
+                        <strong class="o_td_label">
+                            <label for="product_ids" string="Productos"
+                                   attrs="{'invisible': ['|',('oculta_product','=',True),('portal_request_id','!=',False)]}"/>
+                        </strong>
+                        <field name="product_ids" widget="many2many_checkboxes" class="flexproductids"
+                               attrs="{'invisible': ['|',('oculta_product','=',True),('portal_request_id','!=',False)]}"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//group[@name='amplia']" position="before">
+                    <div name='products_amplia' attrs="{'invisible': [('tipo_busqueda','!=','amp')]}">
+                        <strong class="o_td_label">
+                            <label for="product_ids" string="Productos"/>
+                        </strong>
+                        <field name="product_ids" widget="many2many_checkboxes" class="flexproductids"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

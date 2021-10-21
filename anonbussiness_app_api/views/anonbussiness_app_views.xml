@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="anonbussiness_app_model_login_tree" model="ir.ui.view">
+            <field name="name">anonbussiness.app.model.login.tree</field>
+            <field name="model">anonbussiness.app.model.login</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="device_code"/>
+                    <field name="users_ids" widget="many2many_tags"/>
+                    <field name="is_logged_in"/>
+                    <field name="last_logged_user"/>
+                    <field name="last_device_identification"/>
+                    <field name="company_id" readonly="1" invisible="1"/>
+                    <field name="last_user_identification"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="anonbussiness_app_model_login_form" model="ir.ui.view">
+            <field name="name">anonbussiness.app.model.login.form</field>
+            <field name="model">anonbussiness.app.model.login</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Enviar Notificacion" type="object" name="sendManualNotification"
+                                class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="device_code"/>
+                            <h1>
+                                <field name="device_code" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="users_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="is_logged_in"/>
+                            <field name="last_logged_user" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="last_device_identification" readonly="1"/>
+                            <field name="last_user_identification" readonly="1"/>
+                            <field name="can_send_notifications" readonly="1"/>
+                            <field name="company_id" readonly="1" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Registro de acciones">
+                                <field name="log_ids" nolabel="1" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="date" readonly="1"/>
+                                        <field name="type" readonly="1"/>
+                                        <field name="user_id" readonly="1"/>
+                                        <field name="company_id" readonly="1" invisible="1"/>
+                                        <field name="device_id" readonly="1" invisible="1"/>
+                                        <field name="is_conection_related" invisible="1" readonly="1"/>
+                                        <field name="is_task_related" invisible="1" readonly="1"/>
+                                        <field name="related_task_id" readonly="1"/>
+                                        <field name="has_gps_location" invisible="1" readonly="1"/>
+                                        <field name="gps_location_id" invisible="1" readonly="1"/>
+                                        <field name="url" widget="url" text="🗺️" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="anonbussiness_app_model_login_log_tree" model="ir.ui.view">
+            <field name="name">anonbussiness.app.model.login.log.tree</field>
+            <field name="model">anonbussiness.app.model.login.log</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="date" readonly="1"/>
+                    <field name="type" readonly="1"/>
+                    <field name="user_id" readonly="1"/>
+                    <field name="company_id" readonly="1" invisible="1"/>
+                    <field name="device_id" readonly="1"/>
+                    <field name="is_conection_related" invisible="1" readonly="1"/>
+                    <field name="is_task_related" invisible="1" readonly="1"/>
+                    <field name="related_task_id" readonly="1"/>
+                    <field name="has_gps_location" invisible="1" readonly="1"/>
+                    <field name="gps_location_id" widget="url" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_anonbussiness_app_login_notification" model="ir.ui.view">
+            <field name="name">Enviar Notificacion</field>
+            <field name="model">anonbussiness.app.model.login.notification</field>
+            <field name="arch" type="xml">
+                <form string="Choose New Location">
+                    <group>
+                        <field name="title"/>
+                        <field name="message"/>
+                        <field name="device_ids" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="send_notification"
+                                string="Enviar"
+                                type="object"
+                                class="btn-primary"/>
+                        <button string="Cancelar" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_anonbussiness_app_model_login" model="ir.actions.act_window">
+            <field name="name">Dispositivos Identificados</field>
+            <field name="res_model">anonbussiness.app.model.login</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_anonbussiness_app_login_notification" model="ir.actions.act_window">
+            <field name="name">Change Destination Location</field>
+            <field name="res_model">anonbussiness.app.model.login.notification</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_anonbussiness_app_login_notification"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Action Menu Item Related To Above Action Window -->
+        <menuitem
+                name="App"
+                id="root_menu_anonbussiness_app_model_login"
+                parent="base.menu_custom"
+        />
+        <menuitem
+                action="action_anonbussiness_app_model_login"
+                id="action_menu_anonbussiness_app_model_login"
+                parent="root_menu_anonbussiness_app_model_login"
+                name="Dispositivos Identificados"
+        />
+        <act_window id="anonbussiness_app_model_login_tree_action_open"
+                    name="Enviar Notificacion"
+                    src_model="anonbussiness.app.model.login"
+                    res_model="anonbussiness.app.model.login.notification"
+                    view_type="form" view_mode="form"
+                    multi="True"
+                    target="new"
+                    key2="client_action_multi"
+                    view_id="view_anonbussiness_app_login_notification"
+                    context="{'default_device_ids': active_ids}"/>
+    </data>
+</odoo>

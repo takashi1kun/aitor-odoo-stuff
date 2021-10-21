@@ -1,0 +1,12 @@
+h4.oe_price_h4 > b.oe_price,
+section > div.product_price > b > span {
+	/*display:none!important;*/
+}
+.mt-5 {
+    margin-top: 15px;
+}
+.short_reference_search{
+    width: 100px!important;
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+}

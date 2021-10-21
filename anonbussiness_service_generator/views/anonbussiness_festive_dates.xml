@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2019, 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+
+
+        <!--><FORMS><-->
+ <record id="festive_calendar_year_form" model="ir.ui.view">
+            <field name="name">festive.calendar.year.form</field>
+            <field name="model">festive.calendar.year</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Año">
+    <field name="has_next_year" invisible="1"/>
+<header>
+                        <button name="create_next_year" string="Generar Siguiente Año Con Estas Festividades" type="object" class="btn-primary"
+                          attrs="{'invisible': [('has_next_year', '=', True)]}"/>
+</header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="year" attrs="{'invisible': [('id', '!=', False)],'readonly': [('id', '!=', False)]}" />
+                                <field name="complete_name" attrs="{'invisible': [('id', '=', False)]}" readonly="1" />
+                            </h1>
+                        </div>
+                        <field name="days_ids" invisible="1"/>
+                        <notebook>
+                            <page name="pagina_enero" string="Enero">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_enero" class="oe_edit_only" />
+                                    </group>
+                                </group>
+                                <field name="dias_enero_ids" nolabel="1"
+                                       widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" class="oe_edit_only" name="remove_day"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_febrero" string="Febrero">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_febrero" class="oe_edit_only" />
+                                    </group>
+                                </group>
+                                <field name="dias_febrero_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_marzo" string="Marzo">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_marzo" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_marzo_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_abril" string="Abril">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_abril" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_abril_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_mayo" string="Mayo">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_mayo" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_mayo_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_junio" string="Junio">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_junio" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_junio_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_julio" string="Julio">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_julio" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_julio_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_agosto" string="Agosto">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_agosto" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_agosto_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_septiembre" string="Sept.">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_septiembre" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_septiembre_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_octubre" string="Octubre">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_octubre" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_octubre_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_noviembre" string="Nov.">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_noviembre" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_noviembre_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="pagina_diciembre" string="Dic.">
+                                <group class="oe_edit_only">
+                                    <group>
+                                        <field name="dias_diciembre" class="oe_edit_only"  />
+                                    </group>
+                                </group>
+                                <field name="dias_diciembre_ids" nolabel="1"
+                            widget="one2many_list" mode="tree" create="0" edit="0" delete="1" editable="bottom">
+                                    <tree  create="0" edit="0" delete="1" editable="bottom">
+                                        <field name="day"/>
+                                        <field name="month"/>
+                                        <field name="year_id"/>
+                                        <field name="date"/>
+                                        <button type="object" icon="fa-trash" name="remove_day" class="oe_edit_only" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+ </record>
+
+        <!--></FORMS><-->
+
+
+
+
+        <!--><TREES><-->
+
+         <record id="festive_calendar_year_tree" model="ir.ui.view">
+            <field name="name">festive.calendar.year.tree</field>
+            <field name="model">festive.calendar.year</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="calendario" class="o_sale_order">
+                    <field name="complete_name" string="Año" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--></TREES><-->
+
+
+
+        <!--><FILTERS><-->
+
+
+        <!--></FILTERS><-->
+
+
+
+        <!--><OTHER><-->
+
+
+
+        <!--></OTHER><-->
+
+
+
+        <!--><ACTIONS><-->
+
+        <record id="festive_calendar_year_action" model="ir.actions.act_window">
+            <field name="name">Calendario Festividades</field>
+            <field name="res_model">festive.calendar.year</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('festive_calendar_year_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('festive_calendar_year_form')})]"/>
+        </record>
+        <!--></ACTIONS><-->
+
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="portal_request_sequence" model="ir.sequence">
+        <field name="name">Solicitud de Portal</field>
+        <field name="code">portal.request</field>
+        <field name="prefix">SP</field>
+        <field name="implementation">no_gap</field>
+        <field name="padding" eval="7"/>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

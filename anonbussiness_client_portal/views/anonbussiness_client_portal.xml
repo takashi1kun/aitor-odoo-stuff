@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <!--><FORMS><-->
+        <!--></FORMS><-->
+
+        <!--><TREES><-->
+        <!--></TREES><-->
+
+        <!--><FILTERS><-->
+        <!--></FILTERS><-->
+
+        <!--><QWEB><-->
+        <record id="anonbussiness_client_portal_form"  model="ir.ui.view">
+            <field name="name">anonbussiness.client.portal.form</field>
+            <field name="model">anonbussiness.client.portal</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form class="oe_form_configuration o_base_settings o_custom_client_portal">
+                    <div class="o_control_panel">
+                       <!-- <div class="o_panel">
+                            <div class="title h2 mb0 mt4 text-muted hidden-xs">Settings</div>
+                            <div class="o_setting_search">
+                                <input type="text" class="searchInput" placeholder="Search..."/>
+                                <span class="searchIcon"><i class="fa fa-search"/></span>
+                            </div>
+                        </div>
+                        <header>
+                            <button string="Save" type="object" name="execute" class="oe_highlight" />
+                        </header>-->
+                        <img src="/anonbussiness_client_portal/static/img/PORTAL_CLIENTE.png"/>
+                    </div>
+                    <div class="o_portal_client_container">
+                       <h1>Bienvenido/a, <field name="current_user" options='{"no_open": True}' readonly="1"/></h1>
+                        <p>
+                            Este es su portal del cliente donde usted puede consultar
+                            todo lo referente a sus documentos en custodia, contratar servicios así como ver sus pedidos y facturas
+                        </p>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="card">
+                                    <h4>Últimas Facturas</h4>
+                                    <span class="divisor"></span>
+                                    <p>
+                                        <field name="last_invoice_ids" widget="portal_list" />
+                                    </p>
+                                    <field name="view_more_invoice" widget="internal_url_widget" text="Ver Todas" readonly="1" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="card">
+                                    <h4>Últimos Pedidos</h4>
+                                    <span class="divisor"></span>
+                                    <p>
+                                        <field name="last_sale_order_ids" widget="portal_list" />
+                                    </p>
+                                    <field name="view_more_sale" widget="internal_url_widget" text="Ver Todos" readonly="1" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="card">
+                                    <h4>Documentos Recientes</h4>
+                                    <span class="divisor"></span>
+                                    <p>
+                                        <field name="last_document_ids" widget="portal_list" />
+                                    </p>
+                                    <field name="view_more_document" widget="internal_url_widget" text="Ver Todos" readonly="1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service_contract">
+                        <h2>Contratar Servicio</h2>
+                             <input id="collapsible_services" class="toggle" type="checkbox" />
+                        <field name="hider" widget="suggested_services" />
+
+                        <label for="collapsible_services" class="text-right lbl-toggle"></label>
+                            </div>
+                    </div>
+
+                </form>
+
+            </field>
+        </record>
+        <!--></QWEB><-->
+
+        <!--><OTHER><-->
+        <!--></OTHER><-->
+
+        <!--><ACTIONS><-->
+        <record id="action_anonbussiness_client_portal" model="ir.actions.act_window">
+            <field name="name">Portal</field>
+            <field name="res_model">anonbussiness.client.portal</field>
+            <field name="view_id" ref="anonbussiness_client_portal.anonbussiness_client_portal_form"/>
+            <field name="target">inline</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+        </record>
+        <!--></ACTIONS><-->
+
+    </data>
+</odoo>

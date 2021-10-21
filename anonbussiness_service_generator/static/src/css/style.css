@@ -1,0 +1,15 @@
+.anonbussinessDriverStrClass {
+    width:10px;
+    text-align:right!important;
+}
+.anonbussinessKanbanPercent div.o_pie_value {
+    font-size: 0.88em;
+}
+
+.anonbussiness_progress table.o_list_view td.o_progressbar_cell > div.o_progressbar {
+        min-width: 143.25px!important;
+}
+.anonbussiness_progress table.o_list_view td.o_progressbar_cell > div.o_progressbar > div.o_progressbar_value {
+            width: auto!important;
+            min-width: 43.25px!important;
+}

@@ -1,0 +1,193 @@
+.flexproductids {
+display:flex!important;
+flex-wrap:wrap!important;
+}
+.flexproductids > div {
+width:20%!important;
+}
+
+div.o_custom_client_portal {
+  & > div.o_portal_client_container {
+    .flex-row {
+      display: flex;
+    }
+    padding: 0px 40px;
+    & > h1,
+    h2 {
+      margin-left: -10px;
+    }
+    a.custom_link {
+      font-style: italic;
+    }
+    div.row {
+      display: flex;
+    }
+    & > p {
+      max-width: 679px;
+      margin-bottom: 30px;
+      font-size: 1.5em;
+      text-align: justify;
+    }
+    & > h1 {
+      font-size: 3.4em;
+    }
+    & > h2 {
+      font-size: 2.5em;
+      padding-top: 10px;
+    }
+    div.card {
+      background: white;
+      box-shadow: 0 0 4px 1px #6f6f6f;
+      border-radius: 5px;
+      padding: 2px 20px;
+      margin: 17px;
+      min-height: calc(100% - 34px);
+      display: flex;
+      flex-direction: column;
+      & > h4 {
+        font-size: 1.2em;
+      }
+      & > .divisor {
+        width: 100%;
+        display: block;
+        border-bottom: 1px solid gray;
+        margin-top: -4px;
+        margin-bottom: 6px;
+      }
+      & > p {
+        margin-bottom: 1px;
+        div {
+          width: 100%;
+        }
+        ul {
+          list-style: none;
+          margin-block: unset;
+          margin-inline: unset;
+          padding-inline-start: 12px;
+          width: 100%;
+          & > li {
+            border-bottom: 1px solid #dfdfdf;
+            width: 100%;
+          }
+        }
+      }
+      & > a {
+        margin-top: auto;
+        text-align: right;
+      }
+    }
+    .card {
+      background: white;
+      box-shadow: 0 0 4px 1px #6f6f6f;
+      border-radius: 5px;
+      padding: 2px 20px;
+      margin: 17px;
+      min-height: calc(100% - 34px);
+      display: flex;
+      flex-direction: column;
+      border: 0px;
+    }
+    div.service_contract {
+      > label{
+        margin-top: auto;
+        text-align: right;
+        color: #7c7bad;
+        display: block;
+        cursor: pointer;
+        &:before {
+            content: "Ver Todos";
+        }
+      }
+      > input[type='checkbox'] {
+          display: none;
+      }
+      input.toggle:checked + .o_field_suggested_services {
+         max-height: 100vh;
+       }
+      input.toggle:checked + .o_field_suggested_services +  label.lbl-toggle:before{
+            content: "Ver Menos"!important;
+       }
+      > .o_field_suggested_services {
+        max-height: 285px;
+        overflow: hidden;
+        transition: max-height .25s ease-in-out;
+      }
+      .service-card-container {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        height: auto;
+        .service-card {
+          width: 150px;
+          overflow: hidden;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          padding: 10px;
+          margin-left: 14px !important;
+          margin-right: 14px !important;
+          > img {
+            margin: 0px auto;
+            height: 75px;
+          }
+          > h5 {
+            margin: 0px auto;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            font-size: 12px;
+          }
+          > .content {
+            background: rgba(0, 0, 0, 0.7);
+            bottom: -100%;
+            color: #fff;
+            height: 100%;
+            left: 0%;
+            text-align: center;
+            position: absolute;
+            transition: bottom 0.5s ease;
+            width: 100%;
+            border-radius: 5px;
+            > span {
+              position: absolute;
+              &.plus-sign {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 14ch;
+                line-height: 1ch;
+                height: 1ch;
+              }
+              &.text {
+                bottom: 5px;
+                left: 0px;
+                width: 100%;
+
+                font-size: 16px;
+                letter-spacing: 4px;
+              }
+            }
+            > button {
+              background: none;
+              color: inherit;
+              border: none;
+              padding: 0;
+              font: inherit;
+              cursor: pointer;
+              outline: inherit;
+              z-index: 10;
+              position: relative;
+              margin: auto 0px;
+              width: 100%;
+              height: 100%;
+            }
+          }
+          &:hover > .content {
+            bottom: 0%;
+          }
+        }
+      }
+    }
+  }
+}

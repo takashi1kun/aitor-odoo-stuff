@@ -1,0 +1,7 @@
+<odoo>
+        <template  id="website_confirmation_custom" inherit_id="website_sale.confirmation" customize_show="True" name="Confirmation Custom AnonBussiness">
+            <xpath expr="//div[@class='thanks_msg']//h2//a[@class='btn btn-primary pull-right hidden-xs']" position="attributes">
+                <attribute name="style">visibility:hidden;</attribute>
+            </xpath>
+        </template>
+</odoo>

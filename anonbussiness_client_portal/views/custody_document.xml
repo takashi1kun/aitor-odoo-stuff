@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="custody_document_portal_tree" model="ir.ui.view">
+            <field name="name">custody.document.portal.tree</field>
+            <field name="model">custody.document</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="99"/>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="arch" type="xml">
+                <tree class="o_custody_document tree_no_open no_print no_action" decoration-muted="custodia_state in ['baja', 'detr', 'trans']" decoration-danger="custodia_state in ['digt', 'pres']" decoration-info="custodia_state in ['draft']" create="0" delete="0" edit="0">
+                    <field name="name" invisible="1" readonly="1"/>
+                    <field name="owner_ref" invisible="1" readonly="1"/>
+                    <field name="product_id" readonly="1"/>
+                    <field name="codigo_identificador" readonly="1" invisible="1"/>
+                    <field name="etiqueta" readonly="1"/>
+                    <field name="descripcion_corta" string="Descripción" readonly="1"/>
+                    <field name="tramo_view" readonly="1"/>
+                    <field name="year_view" readonly="1"/>
+                    <field name="fecha_view" readonly="1"/>
+                    <field name="numero" readonly="1"/>
+                    <field name="texto_corto" string="Texto" readonly="1"/>
+                    <field name="posicion" readonly="1"/>
+                    <field name="referencia_cliente" readonly="1"/>
+                    <field name="custodia_state" readonly="1"/>
+                    <field name="parent_id" invisible="1" readonly="1"/>
+                    <field name="location_id"  invisible="1" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="custody_document_portal_search" model="ir.ui.view">
+            <field name="name">custody.document.portal.search</field>
+            <field name="model">custody.document</field>
+            <field name="type">search</field>
+            <field name="priority" eval="99"/>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="arch" type="xml">
+                <search string="Consultas no_edit">
+                    <separator/>
+                    <filter string="En tránsito" name="c_draft" domain="[('custodia_state','=','draft')]"/>
+                    <filter string="Almacén" name="c_almacen" domain="[('custodia_state','=','almc')]"/>
+                    <filter string="Almacén Digitalizado" name="c_almacen_digi" domain="[('custodia_state','=','almc_digi')]"/>
+                    <filter string="Prestado" name="c_prestado" domain="[('custodia_state','=','pres')]"/>
+                    <filter string="Sala Digitalización" name="c_digital" domain="[('custodia_state','=','digt')]"/>
+                    <filter string="Baja" name="c_baja" domain="[('custodia_state','=','baja')]"/>
+                    <filter string="Transformado" name="c_transformado" domain="[('custodia_state','=','trans')]"/>
+                    <filter string="Destruido" name="c_destruido" domain="[('custodia_state','=','detr')]"/>
+                    <separator/>
+                    <filter string="Palets" name="filter_palet" domain="[('product_id.custody_level_id.level', '=', 4)]"/>
+                    <filter string="Cajas" name="filter_cajas" domain="[('product_id.custody_level_id.level', '=', 3)]"/>
+                    <filter string="Archivadores" name="filter_arch" domain="[('product_id.custody_level_id.level', '=', 2)]"/>
+                    <filter string="Expedientes" name="filter_exp" domain="[('product_id.custody_level_id.level', '=', 1)]"/>
+                    <filter string="Documentos" name="filter_docs" domain="[('product_id.custody_level_id.level', '=', 0)]"/>
+                    <separator/>
+                    <field name="product_id" domain="[('type', '=', 'product')]"/>
+                    <field name="descripcion"/>
+                    <field name="referencia_cliente"/>
+                    <field name="custodia_state"/>
+                    <field name="numero"/>
+                    <field name="texto"/>
+                    <field name="posicion"/>
+                    <field name="tramo_desde"/>
+                    <field name="tramo_hasta"/>
+                    <field name="year_desde"/>
+                    <field name="year_hasta"/>
+                    <field name="fecha_desde"/>
+                    <field name="fecha_hasta"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Tipo de soporte" domain="[]" context="{'group_by':'product_id'}" name="group_by_product"/>
+                        <filter string="Estado Custodia" domain="[]" context="{'group_by':'custodia_state'}" name="group_by_custodia_state"/>
+                        <filter string="Colección" domain="[('document_coleccion_id','!=',False)]" context="{'group_by':'document_coleccion_id'}" name="group_by_document_coleccion"/>
+                        <filter string="Fecha inventario" domain="[]" context="{'group_by':'fecha_inventario:day'}" name="group_by_fecha_inventario"/>
+                        <filter string="Fecha recepción" domain="[]" context="{'group_by':'fecha_recepcion:day'}" name="group_by_fecha_recepcion"/>
+                        <filter string="Fecha ubicación" domain="[]" context="{'group_by':'fecha_ubicacion:day'}" name="group_by_fecha_ubicacion"/>
+                        <filter string="Fecha prevista de destrucción" domain="[]" context="{'group_by':'fecha_destruccion_prevista:day'}" name="group_by_fecha_destruccion_prevista"/>
+                        <filter string="Fecha de aviso de destrucción" domain="[('fecha_destruccion_aviso', '!=', False)]" context="{'group_by':'fecha_destruccion_aviso:day'}" name="group_by_fecha_destruccion_aviso"/>
+                        <filter string="Fecha de destrucción" domain="[('custodia_state','=','detr')]" context="{'group_by':'fecha_destruccion:day'}" name="group_by_fecha_destruccion"/>
+                        <filter string="Fecha de baja" domain="[('custodia_state','=','baja')]" context="{'group_by':'fecha_baja:day'}" name="group_by_fecha_baja"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_anonbussiness_client_portal_my_documents" model="ir.actions.act_window">
+            <field name="name">Mis Documentos</field>
+            <field name="res_model">custody.document</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="groups_id" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('anonbussiness_client_portal.custody_document_portal_tree')})]"/>
+            <field name="search_view_id" ref="anonbussiness_client_portal.custody_document_portal_search"/>
+            <field name="domain"></field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="custom_search_document_wizard_form" model="ir.ui.view">
+            <field name="name">custom.search.document.wizard.form</field>
+            <field name="model">custom.search.document.wizard</field>
+            <field name="inherit_id" ref="custody_document_anonbussiness.custom_search_document_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='add_documents']" position="attributes">
+                    <attribute name="invisible">context.get('menu_portal_request')</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

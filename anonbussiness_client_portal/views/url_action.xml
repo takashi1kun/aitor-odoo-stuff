@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="action_portal_logout" model="ir.actions.act_url">
+        <field name="name">Salir del Portal</field>
+        <field name="url">/portal/logout</field>
+        <field name="target">self</field>
+    </record>
+</odoo>

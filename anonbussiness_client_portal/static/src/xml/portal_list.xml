@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="portalListWidgetTemplate">
+        <t t-if="renderData">
+            <t t-raw="renderData"/>
+        </t>
+    </t>
+    <t t-name="suggestedServicesWidgetTemplate">
+        <t t-if="renderData">
+            <t t-raw="renderData"/>
+        </t>
+    </t>
+    <t t-name="hideTopWidgetTemplate">
+    </t>
+</templates>

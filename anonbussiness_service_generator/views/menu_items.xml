@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2019, 2021 Praxya - Aitor Rosell Torralba <arosell@praxya.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+
+
+        <!--><OTHER><-->
+
+        <menuitem
+        action="anonbussiness_service_generator.action_sale_order_service_generator"
+        id="action_menu_sale_order_service_generator"
+        parent="sale.sale_order_menu"
+        groups="anonbussiness_service_generator.service_generator_user_group"
+        sequence="5"
+        name="Servicios" />
+        <menuitem
+        action="anonbussiness_service_generator.action_sale_order_service_generator_fav"
+        id="action_menu_sale_order_service_generator_fav"
+        parent="sale.sale_order_menu"
+        groups="anonbussiness_service_generator.service_generator_user_group"
+        sequence="6"
+        name="Servicios Favoritos" />
+       <menuitem
+        action="anonbussiness_service_generator.festive_calendar_year_action"
+        id="festive_calendar_year_menu"
+        parent="sale.sale_order_menu"
+        sequence="8"
+        groups="anonbussiness_service_generator.service_generator_user_group"
+        name="Festividades" />
+        <!--></OTHER><-->
+
+
+
+
+    </data>
+</odoo>

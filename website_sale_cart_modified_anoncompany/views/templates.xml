@@ -1,0 +1,448 @@
+<odoo>
+<data>
+
+    <template id="short_reference_search" name="Busqueda por referencia corta">
+        <form action="/shop/short_reference" method="get" class="pagination form-inline">
+            <div class="input-group">
+                <div class="oe_search">
+                    <input type="text" name="reference" class="search-query form-control oe_search_box short_reference_search" placeholder="Referencia..." />
+                </div>
+                <span class="input-group-btn">
+                   <button type="submit" class="btn btn-default oe_search_button"><i class="fa fa-crosshairs"/></button>
+                </span>
+            </div>
+        </form>
+    </template>
+<template id="products" inherit_id="website_sale.products" name="Products">
+      <xpath expr="//div[hasclass('js_sale')]/div[hasclass('oe_website_sale')]/div[hasclass('products_pager')]/div[hasclass('row')]/t[@t-call='website_sale.search']" position="before">
+            <t t-call="website_sale_cart_modified_praxya.short_reference_search" />
+      </xpath>
+</template>
+      <template id="assets_frontend" inherit_id="website.assets_frontend" name="Shop">
+          <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" href="/website_sale_cart_modified_praxya/static/src/css/style.css"/>
+          </xpath>
+    </template>
+        <template id="product_line_cart" name="Linea de Producto">
+            <t t-set="active" t-value="line.i_am_in_active_section()"></t>
+              <tr>
+                <td colspan="2" t-if="not line.product_id.product_tmpl_id" class='td-img'></td>
+                <td align="center" t-if="line.product_id.type != 'service'" class='td-img'>
+                    <img t-attf-src="/web/image/product.product/#{ line.product_id.id }/image_small" class="img img-responsive img-rounded" />
+                </td>
+                <t t-if="line.product_id.type != 'service'">
+                    <td colspan="2" t-if="line.product_id.product_tmpl_id" class='td-product_name'>
+                        <div>
+                            <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+                                <strong><t t-if="line.product_id.default_code">[<span t-esc="line.product_id.default_code" />] </t><span t-esc="line.product_id.with_context(display_default_code=False).display_name" /></strong>
+                            </a>
+                        </div>
+                        <a t-if="active" href='#' class='js_delete_product hidden-xs no-decoration'> <small><i class='fa fa-trash-o'></i> Eliminar</small></a>
+                    </td>
+                </t>
+                <t t-else="" >
+                    <td colspan="3" t-if="line.product_id.product_tmpl_id" class='td-product_name'>
+                        <div>
+                            <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+                                <strong><t t-if="line.product_id.default_code">[<span t-esc="line.product_id.default_code" />] </t><span t-esc="line.product_id.with_context(display_default_code=False).display_name" /></strong>
+                            </a>
+                        </div>
+                        <div class="text-muted hidden-xs small">
+                            <t t-foreach="line.name.splitlines()[1:]" t-as="name_line">
+                                <span><t t-esc="name_line"/></span><br/>
+                            </t>
+                        </div>
+                        <a t-if="active" href='#' class='js_delete_product hidden-xs no-decoration'> <small><i class='fa fa-trash-o'></i> Eliminar</small></a>
+                    </td>
+                </t>
+
+                <td class="text-center td-qty">
+                    <div class="css_quantity input-group oe_website_spinner">
+                        <a t-if="active" t-attf-href="#" class="mb8 input-group-addon js_add_cart_json hidden-xs">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                        <input type="text" class="js_quantity form-control quantity" t-att-readonly="'readonly' if not active else None"
+                               t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id"
+                               t-att-value="int(line.product_qty)" />
+                        <a t-if="active" t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json hidden-xs">
+                            <i class="fa fa-plus"></i>
+                        </a>
+
+                    </div>
+                </td>
+                <!-- Para añdir el precio en el carrito-->
+                 <!--<td class="text-center td-price" name="price">-->
+                    <!--<t t-if="(compute_currency(line.product_id.lst_price) - line.price_reduce ) &gt; 0.01  and website.get_current_pricelist().discount_policy=='without_discount'">-->
+                        <!--<del t-attf-class="#{'text-danger mr8'}" style="white-space: nowrap;" t-esc="compute_currency(line.product_id.website_public_price)" t-options="{'widget': 'monetary', 'display_currency': website.get_current_pricelist().currency_id, 'from_currency': website.currency_id}"/>-->
+                    <!--</t>-->
+                    <!--<span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_subtotal"/>-->
+                    <!--<span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_total"/>-->
+                <!--</td>-->
+            </tr>
+        </template>
+
+
+          <template id="product_line_cart_2" name="Linea de Producto 2">
+              <tr>
+                <td colspan="2" t-if="not line.product_id.product_tmpl_id" class='td-img'></td>
+                <td align="center" t-if="line.product_id.product_tmpl_id and line.product_id.type == 'product'" class='td-img'>
+                    <span t-field="line.product_id.image_small" t-options="{'widget': 'image', 'class': 'img-rounded'}" />
+                </td>
+                <t t-if="line.product_id.type == 'product'">
+                    <td t-if="line.product_id.product_tmpl_id" class='td-product_name'>
+                        <div>
+                            <a>
+                                <strong><t t-if="line.product_id.default_code">[<span t-esc="line.product_id.default_code" />] </t><span t-esc="line.product_id.with_context(display_default_code=False).display_name" /></strong>
+                            </a>
+                        </div>
+                    </td>
+                </t>
+                <t t-else="" >
+                    <td colspan="2" t-if="line.product_id.product_tmpl_id" class='td-product_name'>
+                        <div>
+                            <a>
+                                <strong><t t-if="line.product_id.default_code">[<span t-esc="line.product_id.default_code" />] </t><span t-esc="line.product_id.with_context(display_default_code=False).display_name" /></strong>
+                            </a>
+                        </div>
+                        <div class="text-muted hidden-xs small">
+                            <t t-foreach="line.name.splitlines()[1:]" t-as="name_line">
+                                <span><t t-esc="name_line"/></span><br/>
+                            </t>
+                        </div>
+                    </td>
+                </t>
+
+                <td class="text-center td-qty">
+                    <h4 t-esc="int(line.product_qty)" ></h4>
+                </td>
+            </tr>
+        </template>
+    <template id="custom_popover_cart" name="Popover personalizado carrito">
+                <div t-foreach="cart_id.get_lines()" t-as="line" class="row mb8 cart_line">
+                    <div class="col-xs-3">
+                        <span t-field="line.product_id.image_small" t-options="{'widget': 'image', 'class': 'img img-responsive img-rounded'}" />
+                    </div>
+                    <div class="col-xs-9">
+                        <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+                                <strong><t t-if="line.product_id.default_code">[<span t-esc="line.product_id.default_code" />] </t><span t-esc="line.product_id.with_context(display_default_code=False).display_name" /></strong>
+                        </a>
+                        <br/>
+                        <small>Ctdad: <t t-esc="line.product_qty"></t></small>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <span class="h5">
+
+                    </span>
+                    <a class="btn btn-primary" href="/shop/cart">
+                           Ver Carrito (<t t-esc="order.cart_quantity"></t> elementos)
+                     </a>
+                </div>
+    </template>
+<template id="superboton_confirmar_carrito" name="Superboton confirmar carrito">
+    <a t-if="website_sale_order.custom_cart_id.should_button_be_shown" href="/shop/checkout" class="floatBtn">
+
+              <svg  focusable="false"  class="svg-inline--fa my-floatBtn"  xmlns="http://www.w3.org/2000/svg" viewBox="-250 0 1000 1000">
+                  <path fill="currentColor" d="M511.1 378.8l-26.7-160c-2.6-15.4-15.9-26.7-31.6-26.7H208v-64h96c8.8 0 16-7.2 16-16V16c0-8.8-7.2-16-16-16H48c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h96v64H59.1c-15.6 0-29 11.3-31.6 26.7L.8 378.7c-.6 3.5-.9 7-.9 10.5V480c0 17.7 14.3 32 32 32h448c17.7 0 32-14.3 32-32v-90.7c.1-3.5-.2-7-.8-10.5zM280 248c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16v-16zm-32 64h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16zm-32-80c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h16zM80 80V48h192v32H80zm40 200h-16c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16zm16 64v-16c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16zm216 112c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h176c4.4 0 8 3.6 8 8v16zm24-112c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16zm48-80c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16z"></path></svg>
+            </a>
+                <style>
+                    .floatBtn{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#54a571;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+                        transition: all 0.55s;
+}
+.floatBtn:hover{
+                    color:white!important;
+                       box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.45), 0 3px 1px -2px rgba(0, 0, 0, 0.47), 0 1px 5px 0 rgba(0, 0, 0, 0.55);
+                     transform: scale(1.13);
+                    }
+
+.my-floatBtn{
+	    margin-top: 14px;
+}
+                </style>
+</template>
+
+        <template id="cart_lines" inherit_id="website_sale.cart_lines" name="Shopping Cart Lines">
+            <xpath expr="//div[@t-if='not website_sale_order or not website_sale_order.website_order_line']" position="replace">
+                <t t-call="website_sale_cart_modified_praxya.superboton_confirmar_carrito" />
+            </xpath>
+            <xpath expr="//table[@id='cart_products']" position="replace">
+                <style>
+
+                        .heads{
+                            background-color: #dcdcdc!important;
+                        }
+                </style>
+
+                <div class="js_cart_lines">
+                      <style t-if="website_sale_order.custom_cart_id.active_section_id and website_sale_order.custom_cart_id.active_section_id.line_ids">
+                    <![CDATA[
+                    .navbar.navbar-default.navbar-static-top {
+                        display: none!important;
+                    }
+                    ]]>
+                </style>
+                      <a href="/shop/cart/section/new" t-if="website_sale_order.custom_cart_id.active_section_id and website_sale_order.custom_cart_id.active_section_id.line_ids" class='btn btn-primary btn-xl text-right'>
+                                        <small><i class='fa fa-plus'></i> Añadir producto a nuevo grupo de marcaje</small>
+                                    </a>
+                                    <a t-if="website_sale_order.custom_cart_id.active_section_id and website_sale_order.custom_cart_id.active_section_id.line_ids" href="/shop" class='btn btn-default btn-xs text-right' style='vertical-align: bottom;'>
+                                        <small><i class='fa fa-plus'></i> Añadir producto a grupo de marcaje actual</small>
+                                    </a>
+                                    <a t-if="not (website_sale_order.custom_cart_id.active_section_id and website_sale_order.custom_cart_id.active_section_id.line_ids)" href="/shop" class='btn btn-primary btn-xl text-right'>
+                                        <small><i class='fa fa-plus'></i>
+                                            <t t-if="len(website_sale_order.custom_cart_id.sections_ids) == 1" >Añadir producto y crear primer grupo de marcaje</t>
+                                            <t t-else="" >Añadir producto e inicializar este grupo de marcaje</t>
+                                        </small>
+                                    </a>
+
+                </div>
+
+                <t  t-if="website_sale_order and website_sale_order.custom_cart_id">
+                    <t t-if="website_sale_order.custom_cart_id.active_section_id and website_sale_order.custom_cart_id.active_section_id.line_ids">
+                        <table class="table table-striped table-condensed js_cart_lines" id="cart_products">
+                          <tbody>
+                            <tr>
+                                <th  class="heads" colspan="4">Grupo Marcaje Activo (<t t-esc="website_sale_order.custom_cart_id.active_section_id.name"/>)</th>
+                            </tr>
+                              <t t-if="website_sale_order.custom_cart_id.active_section_id.product_line_ids">
+                                    <tr class="heads">
+                                        <th class="td-img">Producto</th>
+                                        <th colspan="2"></th>
+                                        <th class="text-center td-qty">Cantidad</th>
+                                    </tr>
+                                   <t t-foreach="website_sale_order.custom_cart_id.active_section_id.product_line_ids" t-as="line">
+                                        <t t-call="website_sale_cart_modified_praxya.product_line_cart"/>
+                                    </t>
+                              </t>
+                              <t t-if="website_sale_order.custom_cart_id.active_section_id.service_line_ids">
+                                    <tr class="heads">
+                                        <th class="td-img">Servicio</th>
+                                        <th colspan="2"></th>
+                                        <th class="text-center td-qty">Cantidad</th>
+                                    </tr>
+                                   <t t-foreach="website_sale_order.custom_cart_id.active_section_id.service_line_ids" t-as="line">
+                                        <t t-call="website_sale_cart_modified_praxya.product_line_cart"/>
+                                    </t>
+                              </t>
+                              <t t-if="website_sale_order.custom_cart_id.active_section_id.product_line_ids">
+                                    <tr class="heads">
+                                        <th colspan="3" class="td-img">Servicios Sugeridos</th>
+                                        <th class="text-center td-qty"></th>
+                                    </tr>
+                                   <t t-foreach="website_sale_order.custom_cart_id.suggested_product_ids" t-as="product_id">
+                                       <tr>
+                                            <td colspan="2" t-if="product_id" class='td-product_name'>
+                                                <div>
+                                                    <a t-attf-href="/shop/product/#{ slug(product_id) }">
+                                                        <strong t-esc="product_id.with_context(display_default_code=True).display_name" />
+                                                    </a>
+                                                </div>
+                                            </td>
+                                           <td colspan="2">
+                                               <t t-set="product" t-value="product_id" />
+                                               <form action="/shop/cart/new-inline-variant" class="js_add_cart_variants" method="POST">
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                                    <div style="display:flex;" class="js_product row" t-if="product_id.product_variant_ids">
+                                                        <t t-placeholder="select">
+                                                            <input type="hidden" class="product_id" name="product_id" t-att-value="product_id.product_variant_id.id or 0" />
+                                                            <t t-call="website_sale_cart_modified_praxya.praxya_inline_variants">
+                                                                <t t-set="ul_class" t-value="'nav-stacked'" />
+                                                            </t>
+                                                        </t>
+                                                        <button type="submit" style="margin-top:auto" class="col-xs-1 btn btn-success btn-xs" href="#"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </form>
+                                           </td>
+                                         <!--  <td class="text-right td-qty">
+                                               <a class="btn btn-primary" t-attf-href="/shop/product/#{ slug(product_id.product_tmpl_id) }">Añadir</a>
+                                           </td> -->
+                                       </tr>
+                                   </t>
+                                </t>
+                          </tbody>
+                    </table>
+                    </t>
+                    <t t-else="">
+                        <div t-if="website_sale_order.custom_cart_id.sections_ids and len(website_sale_order.custom_cart_id.sections_ids.ids) > 1" class="js_cart_lines well well-lg mt-5">
+                            ¡Su Grupo de Marcaje Activo esta vacio!
+                        </div>
+                        <div t-else="" class="js_cart_lines well well-lg mt-5">
+                            ¡Su Carrito esta vacio!
+                        </div>
+                    </t>
+                    <br/>
+                    <h4 class="js_cart_lines">Grupos de Marcaje guardados</h4>
+                    <t t-if="website_sale_order.custom_cart_id.sections_ids and len(website_sale_order.custom_cart_id.sections_ids.ids) > 1">
+                        <table class="table table-striped table-condensed js_cart_lines" id="sections_cart_products">
+                         <t t-foreach="website_sale_order.custom_cart_id.get_sections_ordered_not_active()" t-as="section">
+                           <tr>
+                                <th  class="heads" colspan="2">Grupo de Marcaje <t t-esc="section.order"/></th>
+                                <th  class="heads text-right" colspan="2">
+                                    <a t-attf-href="/shop/cart/section/change/#{ section.order }" class='btn btn-xs btn-primary text-right'> <small><i class='fa fa-pencil'></i> Hacer Activo y editar</small></a>
+                                    <a t-if="len(section.line_ids) ==  0" t-attf-href="/shop/cart/section/delete/#{ section.order }" class='btn btn-xs btn-danger text-right'> <small><i class='fa fa-trash'></i> Eliminar Grupo de Marcaje Vacio</small></a>
+                                </th>
+                            </tr>
+                              <t t-if="section.product_line_ids">
+                                    <tr>
+                                        <th colspan="2" class="td-img">Producto</th>
+                                        <th></th>
+                                        <th class="text-center td-qty">Cantidad</th>
+                                    </tr>
+                                   <t t-foreach="section.product_line_ids" t-as="line">
+                                        <t t-call="website_sale_cart_modified_praxya.product_line_cart"/>
+                                    </t>
+                              </t>
+                              <t t-if="section.service_line_ids">
+                                    <tr>
+                                        <th colspan="2" class="td-img">Servicio</th>
+                                        <th></th>
+                                        <th class="text-center td-qty">Cantidad</th>
+                                    </tr>
+                                   <t t-foreach="section.service_line_ids" t-as="line">
+                                        <t t-call="website_sale_cart_modified_praxya.product_line_cart"/>
+                                    </t>
+                              </t>
+                        </t>
+                    </table>
+                    </t>
+                    <t t-else="">
+                        <div t-if="website_sale_order.custom_cart_id.active_section_id and website_sale_order.custom_cart_id.active_section_id.line_ids" class="js_cart_lines well well-lg mt-5">
+                            No hay Grupos de Marcaje guardados, cree un nuevo grupo de Marcaje y el actual pasara a estar guardado aqui.
+                        </div>
+                        <div t-else="" class="js_cart_lines well well-lg mt-5">
+                            No hay grupos de marcaje, añada un producto para comenzar el primer grupo de marcaje.
+                        </div>
+                    </t>
+
+
+
+                </t>
+            </xpath>
+          <xpath expr="//table[@t-if='suggested_products']" position="replace">
+
+          </xpath>
+          <xpath expr="//h5[contains(@class, 'text-muted') and contains(@class, 'js_cart_lines')]" position="replace">
+
+          </xpath>
+
+        </template>
+<template id="continue_shopping" inherit_id="website_sale.continue_shopping" customize_show="True" name="Continue Shopping Button">
+        <xpath expr="//a[@href='/shop']" position="replace">
+                 <div class="o_wscac_note mb24">
+                    <h3 class="mb24">Observaciones</h3>
+                    <form  action='/shop/cart/notesave' method='POST'>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <textarea class="form-control" name="note" rows="5"><t t-esc="website_sale_order.note"></t></textarea>
+                        <button class="btn btn-primary btn-sm" type="submit">Guardar Nota</button>
+                    </form>
+                </div>
+        </xpath>
+    </template>
+
+
+
+
+
+
+
+
+
+         <template id="praxya_change_sale_confirmation_lines" inherit_id="website_sale.confirmation" customize_show="True" name="Alternative confirmation payment Lines">
+             <xpath expr="//div[@class='thanks_msg']" position="replace">
+                 <p>Por favor lea los grupos de Marcaje y lineas de su pedido y confirme que son correctas para generar las lineas de compra y confirmar el pedido, si encuentra algo incorrecto o algo que desee modificar, aun puede ir atras, pero este es su ultimo momento.</p>
+             </xpath>
+             <xpath expr="//table[1]" position="replace">
+                   <t t-set="website_sale_order" t-value="order"/>
+                   <style>
+                        .heads{
+                        background-color: #dcdcdc!important;
+                        }
+                    </style>
+                    <table class="table table-striped table-condensed" id="cart_products">
+                         <t t-foreach="website_sale_order.custom_cart_id.get_sections_ordered()" t-as="section">
+                           <tr>
+                                <th  class="heads" colspan="4">Grupo de Marcaje (<t t-esc="section.order"/>)</th>
+                            </tr>
+                              <t t-if="section.product_line_ids">
+                                    <tr>
+                                        <th class="td-img">Producto</th>
+                                        <th></th>
+                                        <th class="text-center td-qty">Cantidad</th>
+                                    </tr>
+                                   <t t-foreach="section.product_line_ids" t-as="line">
+                                        <t t-call="website_sale_cart_modified_praxya.product_line_cart_2"/>
+                                    </t>
+                              </t>
+                              <t t-if="section.service_line_ids">
+                                    <tr>
+                                        <th class="td-img">Servicio</th>
+                                        <th></th>
+                                        <th class="text-center td-qty">Cantidad</th>
+                                    </tr>
+                                   <t t-foreach="section.service_line_ids" t-as="line">
+                                        <t t-call="website_sale_cart_modified_praxya.product_line_cart_2"/>
+                                    </t>
+                              </t>
+                        </t>
+                    </table>
+               </xpath>
+               <xpath  expr="//table[2]" position="attributes">
+                    <attribute name="style">display:none</attribute>
+               </xpath>
+                <xpath  expr="//table[3]" position="attributes">
+                  <attribute name="style">display:none</attribute>
+               </xpath>
+                <xpath  expr="//div[@class='col-md-3 hidden-sm hidden-xs text-muted']" position="attributes">
+                   <attribute name="style">display:none!important</attribute>
+               </xpath>
+             <xpath expr="//div[@class='oe_cart']/h3[last()]" position="replace"></xpath>
+             <xpath expr="//t[@t-call='website_sale.payment_confirmation_status']" position="replace">
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <a href="/shop/cart" class="btn btn-danger btn-lg btn-block">
+            <i class="fa fa-arrow-left"></i> Volver al Carrito
+        </a>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <a href="/shop/confirm_sale_lines" class="btn btn-success btn-lg btn-block">
+            <i class="fa fa-check"></i> Confirmar Venta
+        </a>
+    </div>
+</div>
+             </xpath>
+           </template>
+ <template id="praxya_change_sale_checkout" inherit_id="website_sale.checkout" customize_show="True" name="Alternative checkout praxya">
+                  <xpath expr="//div[@id='wrap']" position="replace">
+                  </xpath>
+         </template>
+  <template id="praxya_inline_variants">
+      <t t-set="attribute_value_ids" t-value="product.cache_atribute_value_ids"/>
+      <div style="display:flex;" class="col-xs-9" t-attf-class="col-xs-11 list-unstyled js_add_cart_variants #{ul_class}" t-att-data-attribute_value_ids="json.dumps(attribute_value_ids)">
+        <t t-foreach="product.attribute_line_ids.sorted(key=lambda x: x.attribute_id.sequence)" t-as="variant_id">
+          <div style="flex-grow:1;" t-if="len(variant_id.value_ids) > 1">
+
+            <strong t-field="variant_id.attribute_id.name"/>
+              <select style="padding-top: 0px!important;padding-bottom: 0px!important;height: 20px;" t-attf-class="form-control #{'js_variant_change' if variant_id.attribute_id.create_variant else ''}" t-att-name="'attribute-%s-%s' % (product.id, variant_id.attribute_id.id)">
+                <t t-foreach="variant_id.value_ids" t-as="value_id">
+                  <option t-att-value="value_id.id">
+                      <span t-field="value_id.name"/>
+                  </option>
+                </t>
+              </select>
+
+          </div>
+        </t>
+      </div>
+    </template>
+
+</data>
+</odoo>

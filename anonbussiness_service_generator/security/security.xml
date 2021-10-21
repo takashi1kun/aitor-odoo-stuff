@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.module.category" id="service_generator_group_category">
+          <field name="name">Generador de Servicios</field>
+          <field name="description">Permisos respecto al generador de servicios</field>
+          <field name="sequence">4</field>
+        </record>
+
+
+        <record id="service_generator_user_group" model="res.groups">
+            <field name="name">Usuario (solo sus documentos)</field>
+            <field name="category_id" ref="anonbussiness_service_generator.service_generator_group_category"/>
+            <field name="implied_ids" eval="[(6, 0, [
+            ref('base.group_user'),
+            ref('sales_team.group_sale_salesman'),
+            ref('purchase.group_purchase_user'),
+            ref('stock.group_stock_user')
+            ])]"/>
+            <field name="comment">Este es un usuario basico del generador de servicios, este puede ver, crear, editar y eliminar cualquiera de sus documentos pero solo sus documentos</field>
+        </record>
+
+
+        <record id="service_generator_user_all_documents_group" model="res.groups">
+            <field name="name">Usuario (ver todo)</field>
+            <field name="category_id" ref="anonbussiness_service_generator.service_generator_group_category"/>
+            <field name="implied_ids" eval="[(6, 0, [
+            ref('anonbussiness_service_generator.service_generator_user_group'),
+            ref('sales_team.group_sale_salesman_all_leads')
+            ])]"/>
+            <field name="comment">Este es un usuario avanzado del generador de servicios, este puede ver, crear, editar y eliminar cualquiera de sus documentos y puede ver documentos de otros usuarios</field>
+        </record>
+
+
+        <record id="service_generator_manager_group" model="res.groups">
+            <field name="name">Encargado</field>
+            <field name="category_id" ref="anonbussiness_service_generator.service_generator_group_category"/>
+            <field name="implied_ids" eval="[(6, 0, [
+            ref('anonbussiness_service_generator.service_generator_user_all_documents_group'),
+            ref('sales_team.group_sale_manager'),
+            ref('purchase.group_purchase_manager'),
+            ref('stock.group_stock_manager')
+            ])]"/>
+            <field name="comment">Este es el encargado del generador de servicios, este puede ver, crear, editar y eliminar cualquier documento generatriz</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+
+        <record model="ir.rule" id="service_generator_comp_rule">
+            <field name="name">Service Generator multi-company</field>
+            <field name="global" eval="True"/>
+            <field name="model_id" ref="anonbussiness_service_generator.model_sale_order_service_generator" />
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+       <record model="ir.rule" id="service_generator_line_comp_rule">
+            <field name="name">Service Generator Line multi-company</field>
+            <field name="global" eval="True"/>
+            <field name="model_id" ref="anonbussiness_service_generator.model_sale_order_service_generator_line" />
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+        <record model="ir.rule" id="service_generator_manager_rule">
+            <field name="name">Service Generator Manager</field>
+            <field name="model_id" ref="anonbussiness_service_generator.model_sale_order_service_generator" />
+            <field name="groups" eval="[(4, ref('anonbussiness_service_generator.service_generator_manager_group'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <record model="ir.rule" id="service_generator_user_all_rule">
+            <field name="name">Service Generator User All</field>
+            <field name="model_id" ref="anonbussiness_service_generator.model_sale_order_service_generator" />
+            <field name="groups" eval="[(4, ref('anonbussiness_service_generator.service_generator_user_all_documents_group'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_read" eval="1"/>
+        </record>
+
+        <record model="ir.rule" id="service_generator_user_rule">
+            <field name="name">Service Generator User</field>
+            <field name="model_id" ref="anonbussiness_service_generator.model_sale_order_service_generator" />
+            <field name="groups" eval="[(4, ref('anonbussiness_service_generator.service_generator_user_group'))]"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <record model="ir.rule" id="service_generator_line_manager_rule">
+            <field name="name">Service Generator Line Manager</field>
+            <field name="model_id" ref="anonbussiness_service_generator.model_sale_order_service_generator_line" />
+            <field name="groups" eval="[(4, ref('anonbussiness_service_generator.service_generator_manager_group'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <record model="ir.rule" id="service_generator_line_user_all_rule">
+            <field name="name">Service Generator Line User All</field>
+            <field name="model_id" ref="anonbussiness_service_generator.model_sale_order_service_generator_line" />
+            <field name="groups" eval="[(4, ref('anonbussiness_service_generator.service_generator_user_all_documents_group'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_read" eval="1"/>
+        </record>
+
+        <record model="ir.rule" id="service_generator_line_user_rule">
+            <field name="name">Service Generator Line User</field>
+            <field name="model_id" ref="anonbussiness_service_generator.model_sale_order_service_generator_line" />
+            <field name="groups" eval="[(4, ref('anonbussiness_service_generator.service_generator_user_group'))]"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <record id="cron_calculate_days_renew" forcecreate='True' model="ir.cron">
+              <field name="name">Recalculate days till renew</field>
+              <field eval="True" name="active"/>
+              <field name="user_id" ref="base.user_root"/>
+              <field name="interval_number">5</field>
+              <field name="interval_type">minutes</field>
+              <field name="numbercall">-1</field>
+                <field name="doall" eval="False"/>
+              <field name="model_id" ref="model_sale_order_service_generator"/>
+              <field name="state">code</field>
+                <field name="code">model.renew_cron()</field>
+        </record>
+
+    </data>
+</odoo>

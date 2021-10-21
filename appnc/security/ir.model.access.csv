@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+appnc_hr_timesheet_group_hr_timesheet_user_model_appnc_timesheet,appnc.hr.timesheet.group.hr.timesheet.user.model.appnc.timesheet,appnc.model_appnc_timesheet,hr_timesheet.group_hr_timesheet_user,1,1,1,1
+appnc_hr_timesheet_group_hr_timesheet_user_model_appnc_productivity,appnc.hr.timesheet.group.hr.timesheet.user.model.appnc.productivity,appnc.model_appnc_productivity,hr_timesheet.group_hr_timesheet_user,1,1,1,1
+appnc_hr_timesheet_group_hr_timesheet_user_model_appnc_timesheet_helper,appnc.hr.timesheet.group.hr.timesheet.user.model.appnc.timesheet.helper,appnc.model_appnc_timesheet_helper,hr_timesheet.group_hr_timesheet_user,1,1,1,1
+appnc_hr_timesheet_group_hr_timesheet_user_model_appnc_timesheet_line,appnc.hr.timesheet.group.hr.timesheet.user.model.appnc.timesheet.line,appnc.model_appnc_timesheet_line,hr_timesheet.group_hr_timesheet_user,1,1,1,1
+appnc_hr_timesheet_group_hr_timesheet_user_model_appnc_timesheet_rectification,appnc.hr.timesheet.group.hr.timesheet.user.model.appnc.timesheet.rectification,appnc.model_appnc_timesheet_rectification,hr_timesheet.group_hr_timesheet_user,1,1,1,1
+appnc_hr_timesheet_group_hr_timesheet_user_model_appnc_equipment,appnc.hr.timesheet.group.hr.timesheet.user.model.appnc.equipment,appnc.model_appnc_equipment,hr_timesheet.group_hr_timesheet_user,1,1,1,1
